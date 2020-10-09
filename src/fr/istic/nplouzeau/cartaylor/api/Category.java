@@ -1,7 +1,7 @@
 package fr.istic.nplouzeau.cartaylor.api;
 
 /**
- * @author plouzeau
+ * @author Plouzeau
  * <p>
  * A public type to organize part types in categories
  */
