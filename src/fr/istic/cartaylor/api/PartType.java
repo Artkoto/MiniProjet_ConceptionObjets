@@ -1,4 +1,4 @@
-package fr.istic.nplouzeau.cartaylor.api;
+package fr.istic.cartaylor.api;
 
 /**
  * Variant of an category.

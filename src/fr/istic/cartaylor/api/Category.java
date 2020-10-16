@@ -1,4 +1,4 @@
-package fr.istic.nplouzeau.cartaylor.api;
+package fr.istic.cartaylor.api;
 
 /**
  * A public type to organize part types in categories
