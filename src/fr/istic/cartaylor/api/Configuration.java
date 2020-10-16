@@ -36,7 +36,7 @@ public interface Configuration {
     /**
      * Returns selected part of given category.
      * @param   category    Category
-     * @return  Selected part for given category
+     * @return  Selected part for given category, or <code>null</code> if no part was selected
      */
     PartType getSelectionForCategory(Category category);
 
