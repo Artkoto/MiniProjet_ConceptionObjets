@@ -2,24 +2,39 @@ package fr.istic.cartaylor.test;
 
 import fr.istic.cartaylor.api.Configuration;
 import fr.istic.cartaylor.api.Configurator;
+import fr.istic.cartaylor.api.Category;
+import fr.istic.cartaylor.api.PartType;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Assertions;
+
+import java.util.Optional;
 
 public class ConfigurationTest {
     private Configurator configurator;
+    private Category engine;
+    private PartType eg100;
 
     @BeforeEach
     private void setup() {
         // TODO initialisation du configurator
+        engine = configurator.getCategories().stream().filter((c) -> c.getName().equals("Engine")).findAny().get();
+        eg100 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EG100")).findAny().get();
     }
 
     @Test
     @DisplayName("isComplete and isValid")
     void testCompleteValid() {
-        // TODO teste si la configuration vide est valide et complète -> false
-        // TODO teste si une configuration incomplète est valide et complète -> false
+        Configuration c = configurator.getConfiguration();
+        Assertions.assertFalse(c.isComplete());
+        Assertions.assertFalse(c.isValid());
+
+        c.selectPart(eg100);
+        Assertions.assertFalse(c.isComplete());
+        Assertions.assertFalse(c.isValid());
         // TODO teste si une configuration complète mais invalide est complète -> true et valide -> false
         // TODO teste si une configuration complète et valide est complète et valide -> true
     }
