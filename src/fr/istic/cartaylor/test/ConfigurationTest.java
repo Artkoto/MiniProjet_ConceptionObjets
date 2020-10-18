@@ -9,12 +9,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Assertions;
 
 import java.util.Optional;
 
+
+/**
+ * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
+ * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
+ *        Classe contenant les tests unitaires pour la Configuration.
+ */
+
 public class ConfigurationTest {
-    private Configurator configurator;
+    private Configurator configurator ;
     private Category engine;
     private PartType eg100;
 
