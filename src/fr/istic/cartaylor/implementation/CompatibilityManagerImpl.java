@@ -5,6 +5,11 @@ import fr.istic.cartaylor.api.PartType;
 
 import java.util.Set;
 
+/**
+ * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
+ * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
+ *        Classe Implementant l'interface CompatibilityManager.
+ */
 public class CompatibilityManagerImpl implements CompatibilityManager {
     /**
      * Add a set of incompatible part types to given part type.

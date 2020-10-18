@@ -12,6 +12,7 @@ public interface PartType {
      */
     String getName();
 
+
     /**
      * Returns part type's category
      * @return  Part type's category

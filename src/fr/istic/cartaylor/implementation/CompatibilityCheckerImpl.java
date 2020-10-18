@@ -5,6 +5,11 @@ import fr.istic.cartaylor.api.PartType;
 
 import java.util.Set;
 
+/**
+ * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
+ * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
+ *        Classe Implementant l'interface CompatibilityChecker.
+ */
 public class CompatibilityCheckerImpl implements CompatibilityChecker {
     /**
      * Returns a set of part types that are incompatible with given part type.
