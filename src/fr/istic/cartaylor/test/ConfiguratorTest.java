@@ -1,9 +1,7 @@
 package fr.istic.cartaylor.test;
 
-import fr.istic.cartaylor.api.Configurator;
-import fr.istic.cartaylor.api.Category;
+import fr.istic.cartaylor.api.*;
 
-import fr.istic.cartaylor.api.PartType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -40,10 +38,10 @@ public class ConfiguratorTest {
     @BeforeEach
     public void setup() {
         // TODO initialisation configurator
-        engine = configurator.getCategories().stream().filter((c) -> c.getName().equals("Engine")).findAny().get();
-        transmission =configurator.getCategories().stream().filter((c) -> c.getName().equals("Transmission")).findAny().get();
-        exterior = configurator.getCategories().stream().filter((c) -> c.getName().equals("Exterior")).findAny().get();
-        interior = configurator.getCategories().stream().filter((c) -> c.getName().equals("Interior")).findAny().get();
+        engine = () -> "Engenie";
+        transmission = () -> "Transmission";
+        exterior = () -> "Exterior";
+        interior = () -> "Interior";
         categories = new HashSet<>() {{
             add(engine);
             add(transmission);
@@ -51,12 +49,72 @@ public class ConfiguratorTest {
             add(interior);
         }};
 
-        eg100 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EG100")).findAny().get();
-        eg133 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EG133")).findAny().get();
-        eg210 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EG210")).findAny().get();
-        ed110 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("ED110")).findAny().get();
-        ed180 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("ED180")).findAny().get();
-        eh120 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EH120")).findAny().get();
+        eg100 = new PartType() {
+            @Override
+            public String getName() {
+                return "EG100";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        eg133 = new PartType() {
+            @Override
+            public String getName() {
+                return "EG133";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        eg210 = new PartType() {
+            @Override
+            public String getName() {
+                return "EG210";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        ed110 = new PartType() {
+            @Override
+            public String getName() {
+                return "ED110";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        ed180 = new PartType() {
+            @Override
+            public String getName() {
+                return "ED180";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        eh120 = new PartType() {
+            @Override
+            public String getName() {
+                return "EH120";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
         engines = new HashSet<>(){{
             add(eg100);
             add(eg133);
@@ -65,6 +123,28 @@ public class ConfiguratorTest {
             add(ed180);
             add(eh120);
         }};
+
+        configurator = new Configurator() {
+            @Override
+            public Set<Category> getCategories() {
+                return categories;
+            }
+
+            @Override
+            public Set<PartType> getVariants(Category category) {
+                return engines;
+            }
+
+            @Override
+            public Configuration getConfiguration() {
+                return null;
+            }
+
+            @Override
+            public CompatibilityChecker getCompatibilityChecker() {
+                return null;
+            }
+        };
 
 
     }
