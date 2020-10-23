@@ -10,12 +10,10 @@ import fr.istic.cartaylor.api.PartType;
  */
 public class PartTypeImpl implements PartType {
     private String name;
-    //private String description;
-    private Category category;
+    private CategoryImpl category;
 
-    public PartTypeImpl (String name1 /*, String description1*/ , Category category1){
+    public PartTypeImpl (String name1 , CategoryImpl category1){
         this.name = name1;
-//        this.description = description1
         this.category = category1 ;
     }
     /**
@@ -34,7 +32,7 @@ public class PartTypeImpl implements PartType {
      * @return Part type's category
      */
     @Override
-    public Category getCategory() {
+    public CategoryImpl getCategory() {
         return this.category;
     }
 }

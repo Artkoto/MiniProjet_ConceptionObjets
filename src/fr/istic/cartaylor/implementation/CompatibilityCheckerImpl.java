@@ -33,3 +33,4 @@ public class CompatibilityCheckerImpl implements CompatibilityChecker {
         return null;
     }
 }
+//TODO suprimmer cette implementation car compatibilityManager herite deja

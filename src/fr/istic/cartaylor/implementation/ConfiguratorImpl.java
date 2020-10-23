@@ -10,6 +10,9 @@ import java.util.Set;
  *        Classe Implementant l'interface Configurator.
  */
 public class ConfiguratorImpl  implements Configurator {
+    private  ConfigurationImpl configuration;
+    private CompatibilityManagerImpl compatibilityManager;
+    private  Set<CategoryImpl> categories ;
     /**
      * Returns all existing categories.
      *
@@ -37,8 +40,8 @@ public class ConfiguratorImpl  implements Configurator {
      * @return User's configuration (or an empty configuration for a new user)
      */
     @Override
-    public Configuration getConfiguration() {
-        return null;
+    public ConfigurationImpl getConfiguration() {
+        return this.configuration;
     }
 
     /**
