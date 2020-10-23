@@ -42,7 +42,7 @@ public class ConfiguratorTest {
         transmission = () -> "Transmission";
         exterior = () -> "Exterior";
         interior = () -> "Interior";
-        categories = new HashSet<>() {{
+        categories = new HashSet<Category>() {{
             add(engine);
             add(transmission);
             add(exterior);
@@ -115,7 +115,7 @@ public class ConfiguratorTest {
                 return engine;
             }
         };
-        engines = new HashSet<>(){{
+        engines = new HashSet<PartType>(){{
             add(eg100);
             add(eg133);
             add(eg210);
