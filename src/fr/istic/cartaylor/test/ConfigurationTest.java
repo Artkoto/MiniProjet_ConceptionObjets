@@ -1,16 +1,16 @@
 package fr.istic.cartaylor.test;
 
-import fr.istic.cartaylor.api.Configuration;
-import fr.istic.cartaylor.api.Configurator;
-import fr.istic.cartaylor.api.Category;
-import fr.istic.cartaylor.api.PartType;
+import fr.istic.cartaylor.api.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 
 /**
@@ -21,59 +21,303 @@ import java.util.Optional;
 
 public class ConfigurationTest {
     private Configurator configurator ;
+
     private Category engine;
+    private Category transmission;
+    private Category exterior;
+    private Category interior;
+
     private PartType eg100;
+    private PartType eg210;
+
+    private PartType ta5;
+    private PartType tsf7;
+
+    private PartType xc;
+    private PartType xs;
+
+    private PartType is;
 
     @BeforeEach
     private void setup() {
-        // TODO initialisation du configurator
-        engine = configurator.getCategories().stream().filter((c) -> c.getName().equals("Engine")).findAny().get();
-        eg100 = configurator.getVariants(engine).stream().filter((c) -> c.getName().equals("EG100")).findAny().get();
+        configurator = new Configurator() {
+            private Configuration c = new Configuration() {
+                @Override
+                public boolean isValid() {
+                    return false;
+                }
+
+                @Override
+                public boolean isComplete() {
+                    return false;
+                }
+
+                @Override
+                public Set<PartType> getSelectedParts() {
+                    return Collections.emptySet();
+                }
+
+                @Override
+                public void selectPart(PartType chosenPart) {
+
+                }
+
+                @Override
+                public PartType getSelectionForCategory(Category category) {
+                    return null;
+                }
+
+                @Override
+                public void unselectPartType(Category categoryToClear) {
+
+                }
+
+                @Override
+                public void clear() {
+
+                }
+            };
+            @Override
+            public Set<Category> getCategories() {
+                return Collections.emptySet();
+            }
+
+            @Override
+            public Set<PartType> getVariants(Category category) {
+                return Collections.emptySet();
+            }
+
+            @Override
+            public Configuration getConfiguration() {
+                return c;
+            }
+
+            @Override
+            public CompatibilityChecker getCompatibilityChecker() {
+                return null;
+            }
+        };
+
+        engine = new Category() {
+            @Override
+            public String getName() {
+                return "Engine";
+            }
+        };
+        transmission = new Category() {
+            @Override
+            public String getName() {
+                return "Transmission";
+            }
+        };
+        exterior = new Category() {
+            @Override
+            public String getName() {
+                return "Exterior";
+            }
+        };
+        interior = new Category() {
+            @Override
+            public String getName() {
+                return "Interior";
+            }
+        };
+
+        eg100 = new PartType() {
+            @Override
+            public String getName() {
+                return "EG100";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+        eg210 = new PartType() {
+            @Override
+            public String getName() {
+                return "EG210";
+            }
+
+            @Override
+            public Category getCategory() {
+                return engine;
+            }
+        };
+
+        ta5 = new PartType() {
+            @Override
+            public String getName() {
+                return "TA5";
+            }
+
+            @Override
+            public Category getCategory() {
+                return transmission;
+            }
+        };
+        tsf7 = new PartType() {
+            @Override
+            public String getName() {
+                return "TSF7";
+            }
+
+            @Override
+            public Category getCategory() {
+                return transmission;
+            }
+        };
+
+        xc = new PartType() {
+            @Override
+            public String getName() {
+                return "XC";
+            }
+
+            @Override
+            public Category getCategory() {
+                return exterior;
+            }
+        };
+        xs = new PartType() {
+            @Override
+            public String getName() {
+                return "XS";
+            }
+
+            @Override
+            public Category getCategory() {
+                return exterior;
+            }
+        };
+
+        is = new PartType() {
+            @Override
+            public String getName() {
+                return "IS";
+            }
+
+            @Override
+            public Category getCategory() {
+                return interior;
+            }
+        };
     }
 
     @Test
-    @DisplayName("isComplete and isValid")
-    void testCompleteValid() {
+    @DisplayName("Empty configuration")
+    void testEmptyConf() {
         Configuration c = configurator.getConfiguration();
         Assertions.assertFalse(c.isComplete());
         Assertions.assertFalse(c.isValid());
-
-        c.selectPart(eg100);
-        Assertions.assertFalse(c.isComplete());
-        Assertions.assertFalse(c.isValid());
-        // TODO teste si une configuration complète mais invalide est complète -> true et valide -> false
-        // TODO teste si une configuration complète et valide est complète et valide -> true
     }
 
     @Test
-    @DisplayName("getSelectionForCategory")
+    @DisplayName("Incomplete configuration")
+    void testIncompleteConf() {
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(eg100);
+        Assertions.assertFalse(c.isComplete());
+        Assertions.assertFalse(c.isValid());
+    }
+
+    @Test
+    @DisplayName("Invalid configuration")
+    void testInvalidConf() {
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(eg100);
+        c.selectPart(ta5);
+        c.selectPart(xc);
+        c.selectPart(is);
+        Assertions.assertTrue(c.isComplete());
+        Assertions.assertFalse(c.isValid());
+    }
+
+    @Test
+    @DisplayName("Valid configuration")
+    void testValidConf() {
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(eg210);
+        c.selectPart(tsf7);
+        c.selectPart(xs);
+        c.selectPart(is);
+        Assertions.assertTrue(c.isComplete());
+        Assertions.assertTrue(c.isValid());
+    }
+
+    @Test
+    @DisplayName("Empty getSelectionForCategory")
+    void testEmptyGetSelectionForCategory() {
+        Configuration c = configurator.getConfiguration();
+        Assertions.assertNull(c.getSelectionForCategory(transmission));
+    }
+
+    @Test
+    @DisplayName("Non-empty getSelectionForCategory")
     void testGetSelectionForCategory() {
-        // TODO teste si une configuration vide renvoie null
-        // TODO sélectionner une variante pour une catégorie et tester si la méthode renvoie la variante
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(ta5);
+        Assertions.assertEquals(ta5, c.getSelectionForCategory(transmission));
     }
 
     @Test
     @DisplayName("selectPart")
     void testSelectPart() {
-        // TODO séléctionner une variante et tester si getSelectionForCategory retourne la bonne variante
-        // TODO sélectionner une autre variante de la même catégorie et tester si getSelection for category la renvoie
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(xs);
+        Assertions.assertEquals(xs, c.getSelectionForCategory(exterior));
+    }
+
+    @Test
+    @DisplayName("Part replacement")
+    void testPartReplacement() {
+        Configuration c = configurator.getConfiguration();
+        c.selectPart(eg100);
+        c.selectPart(eg210);
+        Assertions.assertEquals(eg210, c.getSelectionForCategory(engine));
     }
 
     @Test
     @DisplayName("getSelectedParts")
     void testGetSelectedParts() {
-        // TODO sélectionner un ensemble de parts et vérifier que la méthode retourne le même ensemble
+        Set<PartType> s = new HashSet<PartType>() {{
+            add(eg100);
+            add(tsf7);
+            add(xc);
+            add(is);
+        }};
+        Configuration c = configurator.getConfiguration();
+
+        for(PartType p: s) {
+            c.selectPart(p);
+        }
+
+        Assertions.assertIterableEquals(s, c.getSelectedParts());
     }
 
     @Test
     @DisplayName("unselectPartType")
     void testUnselectPartType() {
-        // TODO sélectionner une variante, tester si elle a été sélectionnée, désélectionner la variante et tester si elle a été désélectionnée
+        Configuration c = configurator.getConfiguration();
+
+        c.selectPart(xc);
+        c.unselectPartType(exterior);
+        Assertions.assertNull(c.getSelectionForCategory(exterior));
     }
 
     @Test
     @DisplayName("clear")
     void testClear() {
-        // TODO sélectionner plusieurs variantes, utiliser clear et tester si getSelectedParts retourne l'ensemble vide
+        Configuration c = configurator.getConfiguration();
+
+        c.selectPart(eg100);
+        c.selectPart(ta5);
+        c.selectPart(xs);
+        c.selectPart(is);
+
+        c.clear();
+
+        Assertions.assertIterableEquals(Collections.EMPTY_SET, c.getSelectedParts());
     }
 }
