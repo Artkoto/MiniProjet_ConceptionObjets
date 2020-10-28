@@ -2,6 +2,8 @@ package fr.istic.cartaylor.implementation;
 
 import fr.istic.cartaylor.api.Category;
 
+import java.util.Objects;
+
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
@@ -22,5 +24,19 @@ public class CategoryImpl implements Category {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    //TODO à compléter
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryImpl category = (CategoryImpl) o;
+        return name.equals(category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

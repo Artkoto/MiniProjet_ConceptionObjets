@@ -3,6 +3,8 @@ package fr.istic.cartaylor.implementation;
 import fr.istic.cartaylor.api.Category;
 import fr.istic.cartaylor.api.PartType;
 
+import java.util.Objects;
+
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
@@ -34,5 +36,20 @@ public class PartTypeImpl implements PartType {
     @Override
     public CategoryImpl getCategory() {
         return this.category;
+    }
+
+//TODO À completer
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PartTypeImpl partType = (PartTypeImpl) o;
+        return name.equals(partType.name) &&
+                category.equals(partType.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 public class ConfiguratorImpl  implements Configurator {
     private  ConfigurationImpl configuration;
     private CompatibilityManagerImpl compatibilityManager;
-    private  Set<CategoryImpl> categories ;
+    private  Set<Category> categories ;
     /**
      * Returns all existing categories.
      *
