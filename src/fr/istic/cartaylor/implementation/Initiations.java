@@ -2,6 +2,7 @@ package fr.istic.cartaylor.implementation;
 
 import fr.istic.cartaylor.api.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Initiations {
     public Set<Category> getCategories() {
         return categories;
     }
+
 
     //PartType de la categorie engine
     private PartType eg100 = new PartTypeImpl("EG100", engine);
@@ -90,6 +92,17 @@ public class Initiations {
         return  inPartTypes ;
     }
 
+    private HashMap<Category, Set<PartType>> variants = new HashMap<>(){{
+        put(engine,engPartTypes);
+        put(transmission,transPartTypes);
+        put(exterior,exPartTypes);
+        put(interior,inPartTypes);
+    }};
+
+    public HashMap<Category, Set<PartType>> getVariants() {
+        return variants;
+    }
+
     //les incompatibilities
     Set<PartType> incForTa5 = new HashSet<PartType>(){{
         add(eg100);
@@ -141,13 +154,13 @@ public class Initiations {
     Set<PartType> reqForEh120 = new HashSet<PartType>(){{
         add(tc120);
     }};
-   Set<PartType> reqForTc120 = new HashSet<PartType>(){{
+    Set<PartType> reqForTc120 = new HashSet<PartType>(){{
         add(eh120);
     }};
     Set<PartType> reqForXs = new  HashSet<PartType>(){{
         add(is);
     }};
-   Set<PartType> reqForIs = new HashSet<PartType>(){{
+    Set<PartType> reqForIs = new HashSet<PartType>(){{
         add(xs);
     }};
 

@@ -2,6 +2,7 @@ package fr.istic.cartaylor.implementation;
 
 import fr.istic.cartaylor.api.*;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Set;
 public class ConfiguratorImpl  implements Configurator {
     private  ConfigurationImpl configuration;
     private CompatibilityManagerImpl compatibilityManager;
-    private  Set<Category> categories ;
+    private  Initiations initiations = new Initiations() ;
     /**
      * Returns all existing categories.
      *
@@ -20,7 +21,7 @@ public class ConfiguratorImpl  implements Configurator {
      */
     @Override
     public Set<Category> getCategories() {
-        return null;
+        return Collections.unmodifiableSet(initiations.getCategories()) ;
     }
 
     /**
@@ -31,7 +32,9 @@ public class ConfiguratorImpl  implements Configurator {
      */
     @Override
     public Set<PartType> getVariants(Category category) {
-        return null;
+        return (initiations.getVariants().containsKey(category))
+                ? Collections.unmodifiableSet(initiations.getVariants().get(category))
+                : null ;
     }
 
     /**
@@ -51,6 +54,6 @@ public class ConfiguratorImpl  implements Configurator {
      */
     @Override
     public CompatibilityChecker getCompatibilityChecker() {
-        return null;
+        return compatibilityManager;
     }
 }
