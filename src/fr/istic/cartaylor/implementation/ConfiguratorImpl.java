@@ -11,9 +11,10 @@ import java.util.Set;
  *        Classe Implementant l'interface Configurator.
  */
 public class ConfiguratorImpl  implements Configurator {
-    private  ConfigurationImpl configuration;
-    private CompatibilityManagerImpl compatibilityManager;
     private  Initiations initiations = new Initiations() ;
+    private  ConfigurationImpl configuration;
+    private CompatibilityManagerImpl compatibilityManager = new CompatibilityManagerImpl(initiations);
+
     /**
      * Returns all existing categories.
      *

@@ -5,7 +5,11 @@ import fr.istic.cartaylor.api.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
+ * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
+ *        Classe comportant l'enssemble des initialisations du projet.
+ */
 public class Initiations {
     //Categories
     private CategoryImpl engine = new CategoryImpl("Engine");
@@ -125,29 +129,18 @@ public class Initiations {
         add(eg100);
         add(tm5);
     }};
+    //ensemble d'incompatibilities
+    private HashMap<PartType, Set<PartType>> incompatibilities = new HashMap<>(){{
+        put(xs,incForXs);
+        put(is,incForIs);
+        put(ta5,incForTa5);
+        put(tsf7,incForTsf7);
+        put(xc,incForXc);
+        put(xm,incForXm);
+    }};
 
-    public Set<PartType> getIncForTa5() {
-        return incForTa5;
-    }
-
-    public Set<PartType> getIncForTsf7() {
-        return incForTsf7;
-    }
-
-    public Set<PartType> getIncForXc() {
-        return incForXc;
-    }
-
-    public Set<PartType> getIncForXm() {
-        return incForXm;
-    }
-
-    public Set<PartType> getIncForXs() {
-        return incForXs;
-    }
-
-    public Set<PartType> getIncForIs() {
-        return incForIs;
+    public HashMap<PartType, Set<PartType>> getIncompatibilities() {
+        return incompatibilities;
     }
 
     //les requirements
@@ -164,19 +157,15 @@ public class Initiations {
         add(xs);
     }};
 
-    public Set<PartType> getReqForEh120() {
-        return reqForEh120;
-    }
+    //ensemble de requirements
+    private HashMap<PartType, Set<PartType>> requirements = new HashMap<>(){{
+        put(eh120,reqForEh120);
+        put(tc120,reqForTc120);
+        put(xs,reqForXs);
+        put(is,reqForIs);
+    }};
 
-    public Set<PartType> getReqForTc120() {
-        return reqForTc120;
-    }
-
-    public Set<PartType> getReqForXs() {
-        return reqForXs;
-    }
-
-    public Set<PartType> getReqForIs() {
-        return reqForIs;
+    public HashMap<PartType, Set<PartType>> getRequirements() {
+        return requirements;
     }
 }
