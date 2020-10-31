@@ -1,6 +1,8 @@
 package fr.istic.cartaylor.api;
 
 
+import fr.istic.cartaylor.implementation.CarTaylorExceptions;
+
 import java.util.Set;
 
 /**
@@ -31,7 +33,7 @@ public interface Configuration {
      * Select a part.
      * @param   chosenPart  Part to select
      */
-    void selectPart(PartType chosenPart);
+    void selectPart(PartType chosenPart) ;
 
     /**
      * Returns selected part of given category.

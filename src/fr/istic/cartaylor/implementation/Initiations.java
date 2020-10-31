@@ -168,4 +168,23 @@ public class Initiations {
     public HashMap<PartType, Set<PartType>> getRequirements() {
         return requirements;
     }
+
+    //Methodes pour acceder aux categories et aux partTypes
+    public Category accessToCategory (String categoryName){
+        CategoryImpl category = new CategoryImpl(categoryName);
+        if (categories.contains(category)) return  category ;
+        else return  null ;
+    }
+
+    public PartType accessToPartType (String partTypeName){
+        for (Category category : categories){
+            Set<PartType> variants1 = this.variants.get(category);
+            for (PartType part : variants1){
+                if (part.getName().equals(partTypeName)) return part;
+            }
+        }
+        return  null ;
+    }
+
+
 }

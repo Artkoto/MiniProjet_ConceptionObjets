@@ -1,6 +1,5 @@
 package fr.istic.cartaylor.implementation;
 
-import fr.istic.cartaylor.api.Category;
 import fr.istic.cartaylor.api.PartType;
 
 import java.util.Objects;
@@ -38,7 +37,6 @@ public class PartTypeImpl implements PartType {
         return this.category;
     }
 
-//TODO À completer
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -2,6 +2,7 @@ package fr.istic.cartaylor.test;
 
 import fr.istic.cartaylor.api.*;
 
+import fr.istic.cartaylor.implementation.CarTaylorExceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -215,7 +216,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Incomplete configuration")
-    void testIncompleteConf() {
+    void testIncompleteConf() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         Assertions.assertFalse(c.isComplete());
@@ -224,7 +225,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Invalid configuration")
-    void testInvalidConf() {
+    void testInvalidConf() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         c.selectPart(ta5);
@@ -236,7 +237,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Valid configuration")
-    void testValidConf() {
+    void testValidConf() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg210);
         c.selectPart(tsf7);
@@ -255,7 +256,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Non-empty getSelectionForCategory")
-    void testGetSelectionForCategory() {
+    void testGetSelectionForCategory() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(ta5);
         Assertions.assertEquals(ta5, c.getSelectionForCategory(transmission));
@@ -263,7 +264,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("selectPart")
-    void testSelectPart() {
+    void testSelectPart() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(xs);
         Assertions.assertEquals(xs, c.getSelectionForCategory(exterior));
@@ -271,7 +272,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Part replacement")
-    void testPartReplacement() {
+    void testPartReplacement() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         c.selectPart(eg210);
@@ -280,7 +281,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("getSelectedParts")
-    void testGetSelectedParts() {
+    void testGetSelectedParts() throws CarTaylorExceptions {
         Set<PartType> s = new HashSet<PartType>() {{
             add(eg100);
             add(tsf7);
@@ -298,7 +299,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("unselectPartType")
-    void testUnselectPartType() {
+    void testUnselectPartType() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
 
         c.selectPart(xc);
@@ -308,7 +309,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("clear")
-    void testClear() {
+    void testClear() throws CarTaylorExceptions {
         Configuration c = configurator.getConfiguration();
 
         c.selectPart(eg100);

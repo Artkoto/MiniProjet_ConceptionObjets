@@ -4,6 +4,8 @@ import fr.istic.cartaylor.api.Category;
 import fr.istic.cartaylor.api.Configuration;
 import fr.istic.cartaylor.api.PartType;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -12,6 +14,13 @@ import java.util.Set;
  *        Classe Implementant l'interface Configuration.
  */
 public class ConfigurationImpl implements Configuration {
+    private Set<Category> categories = new HashSet<Category>(){{}};
+    private HashMap<Category, PartType > selections ;
+
+    public ConfigurationImpl(Initiations initiations1){
+        categories.addAll(initiations1.getCategories());
+        selections = new HashMap< Category , PartType>(){{}};
+    }
     /**
      * Tests if the configuration is complete and valid.
      *
@@ -19,6 +28,8 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public boolean isValid() {
+        if (!this.isComplete()) return  false;
+        //TODO à finir
         return false;
     }
 
@@ -29,7 +40,10 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public boolean isComplete() {
-        return false;
+        for (Category category : categories){
+            if (!selections.containsKey(category)) return false ;
+        }
+        return true;
     }
 
     /**
@@ -39,7 +53,12 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public Set<PartType> getSelectedParts() {
-        return null;
+        Set<PartType> selectParts = new HashSet<PartType>(){{}};
+        for (Category category : categories){
+            if (selections.containsKey(category))
+                selectParts.add(selections.get(category));
+        }
+        return selectParts;
     }
 
     /**
@@ -49,6 +68,10 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public void selectPart(PartType chosenPart) {
+        Category category = chosenPart.getCategory();
+        if (category != null && categories.contains(category)){
+            selections.put(category,chosenPart);
+        }
 
     }
 
@@ -60,6 +83,10 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public PartType getSelectionForCategory(Category category) {
+        if (category != null && categories.contains(category)){
+            if (selections.containsKey(category))
+                return selections.get(category);
+        }
         return null;
     }
 
@@ -71,7 +98,10 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public void unselectPartType(Category categoryToClear) {
-
+        if (categoryToClear != null && categories.contains(categoryToClear)){
+            if (selections.containsKey(categoryToClear))
+                selections.remove(categoryToClear);
+        }
     }
 
     /**
@@ -79,6 +109,6 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public void clear() {
-
+        selections.clear();
     }
 }

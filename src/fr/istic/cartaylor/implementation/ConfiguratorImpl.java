@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class ConfiguratorImpl  implements Configurator {
     private  Initiations initiations = new Initiations() ;
-    private  ConfigurationImpl configuration;
+    private  ConfigurationImpl configuration = new ConfigurationImpl(initiations);
     private CompatibilityManagerImpl compatibilityManager = new CompatibilityManagerImpl(initiations);
 
     /**

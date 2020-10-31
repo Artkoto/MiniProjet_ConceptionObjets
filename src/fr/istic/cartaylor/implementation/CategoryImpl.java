@@ -26,7 +26,6 @@ public class CategoryImpl implements Category {
         return this.name;
     }
 
-    //TODO à compléter
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
