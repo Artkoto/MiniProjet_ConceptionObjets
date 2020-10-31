@@ -70,12 +70,12 @@ public class ImplementationsTest {
     @Test
     @DisplayName("Invalid configuration")
     void testInvalidConf() {
-        configuration.selectPart(initiations.accessToPartType("EG10"));
+        configuration.selectPart(initiations.accessToPartType("EG100"));
         configuration.selectPart(initiations.accessToPartType("TA5"));
         configuration.selectPart(initiations.accessToPartType("XC"));
         configuration.selectPart(initiations.accessToPartType("IS"));
         Assertions.assertTrue(configuration.isComplete());
-        Assertions.assertFalse(configuration.isComplete());
+        Assertions.assertFalse(configuration.isValid());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class ImplementationsTest {
         configuration.selectPart(initiations.accessToPartType("XS"));
         configuration.selectPart(initiations.accessToPartType("IS"));
         Assertions.assertTrue(configuration.isComplete());
-        Assertions.assertTrue(configuration.isComplete());
+        Assertions.assertTrue(configuration.isValid());
     }
 
     @Test

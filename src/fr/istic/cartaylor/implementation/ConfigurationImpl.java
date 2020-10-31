@@ -1,8 +1,6 @@
 package fr.istic.cartaylor.implementation;
 
-import fr.istic.cartaylor.api.Category;
-import fr.istic.cartaylor.api.Configuration;
-import fr.istic.cartaylor.api.PartType;
+import fr.istic.cartaylor.api.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,10 +14,13 @@ import java.util.Set;
 public class ConfigurationImpl implements Configuration {
     private Set<Category> categories = new HashSet<Category>(){{}};
     private HashMap<Category, PartType > selections ;
+    private CompatibilityManagerImpl compatibilityManager;
 
-    public ConfigurationImpl(Initiations initiations1){
+
+    public ConfigurationImpl(Initiations initiations1, CompatibilityManagerImpl compatibilityManager1){
         categories.addAll(initiations1.getCategories());
         selections = new HashMap< Category , PartType>(){{}};
+        compatibilityManager = compatibilityManager1 ;
     }
     /**
      * Tests if the configuration is complete and valid.
@@ -29,8 +30,22 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public boolean isValid() {
         if (!this.isComplete()) return  false;
-        //TODO à finir
-        return false;
+        Set<PartType> selection = getSelectedParts() ;
+        for (PartType part : selection){
+            Set<PartType> requirements = compatibilityManager.getRequirements(part);
+            Set<PartType> incompatibilities  = compatibilityManager.getIncompatibilities(part);
+            if (requirements != null)
+            for (PartType req : requirements){
+                if (!selection.contains(req))
+                    return false ;
+            }
+            if (incompatibilities != null)
+            for (PartType inc :incompatibilities){
+                if (selection.contains(inc))
+                    return false ;
+            }
+        }
+        return true;
     }
 
     /**
@@ -99,7 +114,6 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public void unselectPartType(Category categoryToClear) {
         if (categoryToClear != null && categories.contains(categoryToClear)){
-            if (selections.containsKey(categoryToClear))
                 selections.remove(categoryToClear);
         }
     }

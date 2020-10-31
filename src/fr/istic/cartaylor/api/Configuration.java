@@ -1,8 +1,5 @@
 package fr.istic.cartaylor.api;
 
-
-import fr.istic.cartaylor.implementation.CarTaylorExceptions;
-
 import java.util.Set;
 
 /**
