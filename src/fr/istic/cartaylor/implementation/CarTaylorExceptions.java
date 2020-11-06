@@ -4,7 +4,7 @@ package fr.istic.cartaylor.implementation;
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
  *        Classe d'exceptions.
  */
-public class CarTaylorExceptions extends Exception {
+public class CarTaylorExceptions extends RuntimeException {
     public CarTaylorExceptions(String message){
         super(message);
     }
