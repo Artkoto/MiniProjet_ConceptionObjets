@@ -1,7 +1,5 @@
 package fr.istic.cartaylor.api;
 
-import fr.istic.cartaylor.implementation.CarTaylorExceptions;
-
 import java.util.Set;
 
 /**
@@ -16,7 +14,7 @@ public interface CompatibilityManager extends CompatibilityChecker {
      * @param   reference   A part type
      * @param   target      All incompatible part types with <code>reference</code>
      */
-    void addIncompatibilities(PartType reference, Set<PartType> target) throws CarTaylorExceptions;
+    void addIncompatibilities(PartType reference, Set<PartType> target);
 
     /**
      * Remove an incompatibility between given part types.
@@ -32,7 +30,7 @@ public interface CompatibilityManager extends CompatibilityChecker {
      * @param   reference   Part type to use
      * @param   target      All required part types
      */
-    void addRequirements(PartType reference, Set<PartType> target) throws CarTaylorExceptions;
+    void addRequirements(PartType reference, Set<PartType> target);
 
     /**
      * Remove a required part type for a given part type.
