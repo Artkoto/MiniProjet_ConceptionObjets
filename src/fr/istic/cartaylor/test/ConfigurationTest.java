@@ -2,7 +2,8 @@ package fr.istic.cartaylor.test;
 
 import fr.istic.cartaylor.api.*;
 
-import fr.istic.cartaylor.implementation.CarTaylorExceptions;
+import fr.istic.cartaylor.implementation.ConfiguratorImpl;
+import fr.istic.cartaylor.implementation.Initiations;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,169 +42,24 @@ public class ConfigurationTest {
 
     @BeforeEach
     private void setup() {
-        configurator = new Configurator() {
-            private Configuration c = new Configuration() {
-                @Override
-                public boolean isValid() {
-                    return false;
-                }
+        configurator = new ConfiguratorImpl();
+        Initiations init = new Initiations();
 
-                @Override
-                public boolean isComplete() {
-                    return false;
-                }
+        engine = init.accessToCategory("Engine");
+        transmission = init.accessToCategory("Transmission");
+        exterior = init.accessToCategory("Exterior");
+        interior = init.accessToCategory("Interior");
 
-                @Override
-                public Set<PartType> getSelectedParts() {
-                    return Collections.emptySet();
-                }
+        eg100 = init.accessToPartType("EG100");
+        eg210 = init.accessToPartType("EG210");
 
-                @Override
-                public void selectPart(PartType chosenPart) {
+        ta5 = init.accessToPartType("TA5");
+        tsf7 = init.accessToPartType("TSF7");
 
-                }
+        xc = init.accessToPartType("XC");
+        xs = init.accessToPartType("XS");
 
-                @Override
-                public PartType getSelectionForCategory(Category category) {
-                    return null;
-                }
-
-                @Override
-                public void unselectPartType(Category categoryToClear) {
-
-                }
-
-                @Override
-                public void clear() {
-
-                }
-            };
-            @Override
-            public Set<Category> getCategories() {
-                return Collections.emptySet();
-            }
-
-            @Override
-            public Set<PartType> getVariants(Category category) {
-                return Collections.emptySet();
-            }
-
-            @Override
-            public Configuration getConfiguration() {
-                return c;
-            }
-
-            @Override
-            public CompatibilityChecker getCompatibilityChecker() {
-                return null;
-            }
-        };
-
-        engine = new Category() {
-            @Override
-            public String getName() {
-                return "Engine";
-            }
-        };
-        transmission = new Category() {
-            @Override
-            public String getName() {
-                return "Transmission";
-            }
-        };
-        exterior = new Category() {
-            @Override
-            public String getName() {
-                return "Exterior";
-            }
-        };
-        interior = new Category() {
-            @Override
-            public String getName() {
-                return "Interior";
-            }
-        };
-
-        eg100 = new PartType() {
-            @Override
-            public String getName() {
-                return "EG100";
-            }
-
-            @Override
-            public Category getCategory() {
-                return engine;
-            }
-        };
-        eg210 = new PartType() {
-            @Override
-            public String getName() {
-                return "EG210";
-            }
-
-            @Override
-            public Category getCategory() {
-                return engine;
-            }
-        };
-
-        ta5 = new PartType() {
-            @Override
-            public String getName() {
-                return "TA5";
-            }
-
-            @Override
-            public Category getCategory() {
-                return transmission;
-            }
-        };
-        tsf7 = new PartType() {
-            @Override
-            public String getName() {
-                return "TSF7";
-            }
-
-            @Override
-            public Category getCategory() {
-                return transmission;
-            }
-        };
-
-        xc = new PartType() {
-            @Override
-            public String getName() {
-                return "XC";
-            }
-
-            @Override
-            public Category getCategory() {
-                return exterior;
-            }
-        };
-        xs = new PartType() {
-            @Override
-            public String getName() {
-                return "XS";
-            }
-
-            @Override
-            public Category getCategory() {
-                return exterior;
-            }
-        };
-
-        is = new PartType() {
-            @Override
-            public String getName() {
-                return "IS";
-            }
-
-            @Override
-            public Category getCategory() {
-                return interior;
-            }
-        };
+        is = init.accessToPartType("IS");
     }
 
     @Test
@@ -216,7 +72,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Incomplete configuration")
-    void testIncompleteConf() throws CarTaylorExceptions {
+    void testIncompleteConf() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         Assertions.assertFalse(c.isComplete());
@@ -225,7 +81,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Invalid configuration")
-    void testInvalidConf() throws CarTaylorExceptions {
+    void testInvalidConf() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         c.selectPart(ta5);
@@ -237,7 +93,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Valid configuration")
-    void testValidConf() throws CarTaylorExceptions {
+    void testValidConf() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg210);
         c.selectPart(tsf7);
@@ -256,7 +112,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Non-empty getSelectionForCategory")
-    void testGetSelectionForCategory() throws CarTaylorExceptions {
+    void testGetSelectionForCategory() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(ta5);
         Assertions.assertEquals(ta5, c.getSelectionForCategory(transmission));
@@ -264,7 +120,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("selectPart")
-    void testSelectPart() throws CarTaylorExceptions {
+    void testSelectPart() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(xs);
         Assertions.assertEquals(xs, c.getSelectionForCategory(exterior));
@@ -272,7 +128,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("Part replacement")
-    void testPartReplacement() throws CarTaylorExceptions {
+    void testPartReplacement() {
         Configuration c = configurator.getConfiguration();
         c.selectPart(eg100);
         c.selectPart(eg210);
@@ -281,7 +137,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("getSelectedParts")
-    void testGetSelectedParts() throws CarTaylorExceptions {
+    void testGetSelectedParts() {
         Set<PartType> s = new HashSet<PartType>() {{
             add(eg100);
             add(tsf7);
@@ -299,7 +155,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("unselectPartType")
-    void testUnselectPartType() throws CarTaylorExceptions {
+    void testUnselectPartType() {
         Configuration c = configurator.getConfiguration();
 
         c.selectPart(xc);
@@ -309,7 +165,7 @@ public class ConfigurationTest {
 
     @Test
     @DisplayName("clear")
-    void testClear() throws CarTaylorExceptions {
+    void testClear() {
         Configuration c = configurator.getConfiguration();
 
         c.selectPart(eg100);
