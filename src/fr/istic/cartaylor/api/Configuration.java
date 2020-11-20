@@ -1,5 +1,6 @@
 package fr.istic.cartaylor.api;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -24,7 +25,7 @@ public interface Configuration {
      * Returns selected parts.
      * @return  Set of selected parts (immutable)
      */
-    Set<PartType> getSelectedParts();
+    Set<Part> getSelectedParts();
 
     /**
      * Select a part.
@@ -35,9 +36,10 @@ public interface Configuration {
     /**
      * Returns selected part of given category.
      * @param   category    Category
-     * @return  Selected part for given category, or <code>null</code> if no part was selected
+     * @return  On optional containing the selected part for given category, or an empty optional
+     *          if no part was selected.
      */
-    PartType getSelectionForCategory(Category category);
+    Optional<Part> getSelectionForCategory(Category category);
 
     /**
      * Clear a category, i.e. remove selected part for this category.
