@@ -2,9 +2,7 @@ package fr.istic.cartaylor.implementation;
 
 import fr.istic.cartaylor.api.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
@@ -30,7 +28,7 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public boolean isValid() {
         if (!this.isComplete()) return  false;
-        Set<PartType> selection = getSelectedParts() ;
+        Set<PartType> selection = Collections.emptySet(); //getSelectedParts() ;
         for (PartType part : selection){
             Set<PartType> requirements = compatibilityManager.getRequirements(part);
             Set<PartType> incompatibilities  = compatibilityManager.getIncompatibilities(part);
@@ -67,13 +65,15 @@ public class ConfigurationImpl implements Configuration {
      * @return Set of selected parts (immutable)
      */
     @Override
-    public Set<PartType> getSelectedParts() {
+    public Set<Part> getSelectedParts() {
         Set<PartType> selectParts = new HashSet<PartType>(){{}};
         for (Category category : categories){
             if (selections.containsKey(category))
                 selectParts.add(selections.get(category));
         }
-        return selectParts;
+        //return selectParts;
+        return Collections.emptySet();
+        // TODO
     }
 
     /**
@@ -97,12 +97,13 @@ public class ConfigurationImpl implements Configuration {
      * @return Selected part for given category, or <code>null</code> if no part was selected
      */
     @Override
-    public PartType getSelectionForCategory(Category category) {
+    public Optional<Part> getSelectionForCategory(Category category) {
         if (category != null && categories.contains(category)){
-            if (selections.containsKey(category))
-                return selections.get(category);
+            if (selections.containsKey(category));
+                //return selections.get(category);
         }
-        return null;
+        return Optional.empty();
+        // TODO
     }
 
     /**
