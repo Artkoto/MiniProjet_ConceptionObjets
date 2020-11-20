@@ -11,15 +11,16 @@ import java.util.*;
  */
 public class ConfigurationImpl implements Configuration {
     private Set<Category> categories = new HashSet<Category>(){{}};
-    private HashMap<Category, PartType > selections ;
+    private HashMap<Category, Part> selections ;
     private CompatibilityManagerImpl compatibilityManager;
 
 
-    public ConfigurationImpl(Initiations initiations1, CompatibilityManagerImpl compatibilityManager1){
-        categories.addAll(initiations1.getCategories());
-        selections = new HashMap< Category , PartType>(){{}};
-        compatibilityManager = compatibilityManager1 ;
+    public ConfigurationImpl(Initiations initiations, CompatibilityManagerImpl compatibilityManager){
+        this.categories.addAll(initiations.getCategories());
+        this.selections = new HashMap< Category , Part>(){{}};
+        this.compatibilityManager = compatibilityManager;
     }
+
     /**
      * Tests if the configuration is complete and valid.
      *
@@ -28,17 +29,15 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public boolean isValid() {
         if (!this.isComplete()) return  false;
-        Set<PartType> selection = Collections.emptySet(); //getSelectedParts() ;
-        for (PartType part : selection){
-            Set<PartType> requirements = compatibilityManager.getRequirements(part);
-            Set<PartType> incompatibilities  = compatibilityManager.getIncompatibilities(part);
-            if (requirements != null)
-            for (PartType req : requirements){
+        Set<Part> selection = getSelectedParts() ;
+        for (Part part: selection){
+            Set<PartType> requirements = compatibilityManager.getRequirements(part.getType());
+            Set<PartType> incompatibilities  = compatibilityManager.getIncompatibilities(part.getType());
+            for (PartType req: requirements){
                 if (!selection.contains(req))
                     return false ;
             }
-            if (incompatibilities != null)
-            for (PartType inc :incompatibilities){
+            for (PartType inc: incompatibilities){
                 if (selection.contains(inc))
                     return false ;
             }
@@ -66,14 +65,12 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public Set<Part> getSelectedParts() {
-        Set<PartType> selectParts = new HashSet<PartType>(){{}};
+        Set<Part> selectParts = new HashSet<Part>(){{}};
         for (Category category : categories){
             if (selections.containsKey(category))
                 selectParts.add(selections.get(category));
         }
-        //return selectParts;
-        return Collections.emptySet();
-        // TODO
+        return selectParts;
     }
 
     /**
@@ -82,12 +79,9 @@ public class ConfigurationImpl implements Configuration {
      * @param chosenPart Part to select
      */
     @Override
-    public void selectPart(PartType chosenPart) {
+    public void selectPart(Part chosenPart) {
         Category category = chosenPart.getCategory();
-        if (category != null && categories.contains(category)){
-            selections.put(category,chosenPart);
-        }
-
+        selections.put(category,chosenPart);
     }
 
     /**
@@ -99,11 +93,10 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public Optional<Part> getSelectionForCategory(Category category) {
         if (category != null && categories.contains(category)){
-            if (selections.containsKey(category));
-                //return selections.get(category);
+            if (selections.containsKey(category))
+                return Optional.of(selections.get(category));
         }
         return Optional.empty();
-        // TODO
     }
 
     /**
