@@ -31,7 +31,7 @@ public interface Configuration {
      * Select a part.
      * @param   chosenPart  Part to select
      */
-    void selectPart(PartType chosenPart) ;
+    void selectPart(Part chosenPart) ;
 
     /**
      * Returns selected part of given category.
