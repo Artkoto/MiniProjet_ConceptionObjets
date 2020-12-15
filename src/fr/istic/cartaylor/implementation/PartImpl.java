@@ -30,14 +30,6 @@ public class PartImpl implements Part {
     // Associates a property name to a property
     private Map<String, Property> properties = new HashMap<>();
 
-    /**
-     * Creates a part of given type.
-     * @param type Type of part
-     */
-    public PartImpl(PartType type) {
-        this.type = type;
-    }
-
     // Add a property to the part
     protected void addProperty(String name,
                                Supplier<String> getter,
