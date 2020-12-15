@@ -3,6 +3,8 @@ package fr.istic.cartaylor.implementation;
 import fr.istic.cartaylor.api.*;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -11,9 +13,11 @@ import java.util.Set;
  *        Classe Implementant l'interface Configurator.
  */
 public class ConfiguratorImpl  implements Configurator {
-    private  Initiations initiations = new Initiations() ;
-    private CompatibilityManagerImpl compatibilityManager = new CompatibilityManagerImpl(initiations);
-    private  ConfigurationImpl configuration = new ConfigurationImpl(initiations, compatibilityManager);
+    // Map associating a category and its available variants
+    private Map<Category, Set<PartType>> catalog = new HashMap<>();
+    private CompatibilityManager compatibilityManager =
+            new CompatibilityManagerImpl();
+    private Configuration configuration;
 
 
     /**
@@ -23,7 +27,7 @@ public class ConfiguratorImpl  implements Configurator {
      */
     @Override
     public Set<Category> getCategories() {
-        return Collections.unmodifiableSet(initiations.getCategories()) ;
+        return Collections.unmodifiableSet(catalog.keySet()) ;
     }
 
     /**
@@ -34,9 +38,9 @@ public class ConfiguratorImpl  implements Configurator {
      */
     @Override
     public Set<PartType> getVariants(Category category) {
-        return (initiations.getVariants().containsKey(category))
-                ? Collections.unmodifiableSet(initiations.getVariants().get(category))
-                : null ;
+        return Collections.unmodifiableSet(
+                catalog.getOrDefault(category, Collections.EMPTY_SET)
+        );
     }
 
     /**
@@ -45,7 +49,7 @@ public class ConfiguratorImpl  implements Configurator {
      * @return User's configuration (or an empty configuration for a new user)
      */
     @Override
-    public ConfigurationImpl getConfiguration() {
+    public Configuration getConfiguration() {
         return this.configuration;
     }
 
