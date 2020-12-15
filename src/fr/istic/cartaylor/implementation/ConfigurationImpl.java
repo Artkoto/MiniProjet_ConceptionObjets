@@ -10,15 +10,16 @@ import java.util.*;
  *        Classe Implementant l'interface Configuration.
  */
 public class ConfigurationImpl implements Configuration {
-    private Set<Category> categories = new HashSet<Category>(){{}};
-    private HashMap<Category, Part> selections ;
-    private CompatibilityManagerImpl compatibilityManager;
+    private Map<Category, Part> selections = new HashMap<>();
+    private Configurator configurator;
 
-
-    public ConfigurationImpl(Initiations initiations, CompatibilityManagerImpl compatibilityManager){
-        this.categories.addAll(initiations.getCategories());
-        this.selections = new HashMap< Category , Part>(){{}};
-        this.compatibilityManager = compatibilityManager;
+    /**
+     * Creates a new empty configuration.
+     * @param configurator Configurator object storing categories and
+     *                     compatibility checker
+     */
+    public ConfigurationImpl(Configurator configurator) {
+        this.configurator = configurator;
     }
 
     /**
@@ -31,8 +32,14 @@ public class ConfigurationImpl implements Configuration {
         if (!this.isComplete()) return  false;
         Set<Part> selection = getSelectedParts() ;
         for (Part part: selection){
-            Set<PartType> requirements = compatibilityManager.getRequirements(part.getType());
-            Set<PartType> incompatibilities  = compatibilityManager.getIncompatibilities(part.getType());
+            Set<PartType> requirements =
+                    configurator.getCompatibilityChecker().getRequirements(
+                            part.getType()
+                    );
+            Set<PartType> incompatibilities =
+                    configurator.getCompatibilityChecker().getIncompatibilities(
+                            part.getType()
+                    );
             for (PartType req: requirements){
                 if (!selection.contains(req))
                     return false ;
@@ -52,7 +59,7 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public boolean isComplete() {
-        for (Category category : categories){
+        for (Category category : configurator.getCategories()){
             if (!selections.containsKey(category)) return false ;
         }
         return true;
@@ -66,7 +73,7 @@ public class ConfigurationImpl implements Configuration {
     @Override
     public Set<Part> getSelectedParts() {
         Set<Part> selectParts = new HashSet<Part>(){{}};
-        for (Category category : categories){
+        for (Category category : configurator.getCategories()){
             if (selections.containsKey(category))
                 selectParts.add(selections.get(category));
         }
@@ -92,7 +99,8 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public Optional<Part> getSelectionForCategory(Category category) {
-        if (category != null && categories.contains(category)){
+        if (category != null && configurator.getCategories().contains(category))
+        {
             if (selections.containsKey(category))
                 return Optional.of(selections.get(category));
         }
@@ -107,7 +115,8 @@ public class ConfigurationImpl implements Configuration {
      */
     @Override
     public void unselectPartType(Category categoryToClear) {
-        if (categoryToClear != null && categories.contains(categoryToClear)){
+        if (categoryToClear != null
+                && configurator.getCategories().contains(categoryToClear)){
                 selections.remove(categoryToClear);
         }
     }
