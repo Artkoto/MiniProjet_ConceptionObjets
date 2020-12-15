@@ -14,12 +14,15 @@ import java.util.logging.Logger;
  *        Classe Implementant l'interface  PartType.
  */
 public class PartTypeImpl implements PartType {
-    private String name;
     private Class<? extends PartImpl> classRef;
     private Category category;
 
-    public PartTypeImpl(String name, Class<? extends PartImpl> classRef, Category category) {
-        this.name = name;
+    /**
+     * Creates a new Part type for given Part class.
+     * @param classRef Class of part objects
+     * @param category Category for this part type
+     */
+    public PartTypeImpl(Class<? extends PartImpl> classRef, Category category) {
         this.classRef = classRef;
         this.category = category;
     }
@@ -31,7 +34,7 @@ public class PartTypeImpl implements PartType {
      */
     @Override
     public String getName() {
-        return this.name;
+        return this.classRef.getName();
     }
 
     /**
@@ -61,12 +64,12 @@ public class PartTypeImpl implements PartType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartTypeImpl partType = (PartTypeImpl) o;
-        return name.equals(partType.name) &&
+        return getName().equals(partType.getName()) &&
                 category.equals(partType.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return classRef.hashCode();
     }
 }
