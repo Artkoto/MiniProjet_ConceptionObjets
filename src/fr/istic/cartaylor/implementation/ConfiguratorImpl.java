@@ -14,10 +14,18 @@ import java.util.Set;
  */
 public class ConfiguratorImpl  implements Configurator {
     // Map associating a category and its available variants
-    private Map<Category, Set<PartType>> catalog = new HashMap<>();
+    private Map<Category, Set<PartType>> catalog;
     private CompatibilityManager compatibilityManager =
             new CompatibilityManagerImpl();
-    private Configuration configuration;
+    private Configuration configuration = new ConfigurationImpl(this);
+
+    /**
+     * Creates a new configurator with an empty configuration.
+     * @param catalog Map associating categories to their part types
+     */
+    public ConfiguratorImpl(Map<Category, Set<PartType>> catalog) {
+        this.catalog = catalog;
+    }
 
 
     /**

@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class PartImpl implements Part {
+public abstract class PartImpl implements Part {
 
     private PartType type;
 
@@ -29,6 +29,15 @@ public class PartImpl implements Part {
 
     // Associates a property name to a property
     private Map<String, Property> properties = new HashMap<>();
+
+    /**
+     * Set the type of the part.
+     * Must be done just after creation.
+     * @param type Type of the part
+     */
+    public void setType(PartType type) {
+        if(this.type == null) this.type = type;
+    }
 
     // Add a property to the part
     protected void addProperty(String name,

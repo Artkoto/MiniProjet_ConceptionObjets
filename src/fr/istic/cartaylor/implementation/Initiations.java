@@ -27,14 +27,21 @@ public class Initiations {
         return categories;
     }
 
+    // Engine classes
+    public final class EG100 extends PartImpl {}
+    public final class EG133 extends PartImpl {}
+    public final class EG210 extends PartImpl {}
+    public final class ED110 extends PartImpl {}
+    public final class ED180 extends PartImpl {}
+    public final class EH120 extends PartImpl {}
 
-    //PartType de la categorie engine
-    private PartType eg100 = new PartTypeImpl("EG100", engine);
-    private PartType eg133 = new PartTypeImpl("EG133", engine);
-    private PartType eg210 = new PartTypeImpl("EG210", engine);
-    private PartType ed110 = new PartTypeImpl("ED110", engine);
-    private PartType ed180 = new PartTypeImpl("ED180", engine);
-    private PartType eh120 = new PartTypeImpl("EH120", engine);
+    // Engine part types
+    private PartType eg100 = new PartTypeImpl(EG100.class, engine);
+    private PartType eg133 = new PartTypeImpl(EG133.class, engine);
+    private PartType eg210 = new PartTypeImpl(EG210.class, engine);
+    private PartType ed110 = new PartTypeImpl(ED110.class, engine);
+    private PartType ed180 = new PartTypeImpl(ED180.class, engine);
+    private PartType eh120 = new PartTypeImpl(EH120.class, engine);
     private Set<PartType> engPartTypes = new HashSet<PartType>(){{
         add(eg100);
         add(eg133);
@@ -48,13 +55,21 @@ public class Initiations {
         return  engPartTypes ;
     }
 
-    //partType de la categorie transmission
-    private PartType tm5 = new PartTypeImpl ("TM5", transmission);
-    private PartType tm6 = new PartTypeImpl ("TM6", transmission);
-    private PartType ta5 = new PartTypeImpl ("TA5", transmission);
-    private PartType ts6 = new PartTypeImpl ("TS6", transmission);
-    private PartType tsf7 = new PartTypeImpl ("TSF7", transmission);
-    private PartType tc120 = new PartTypeImpl ("TC120", transmission);
+    // Transmission classes
+    public final class TM5 extends PartImpl {}
+    public final class TM6 extends PartImpl {}
+    public final class TA5 extends PartImpl {}
+    public final class TS6 extends PartImpl {}
+    public final class TSF7 extends PartImpl {}
+    public final class TC120 extends PartImpl {}
+
+    // Transmission part types
+    private PartType tm5 = new PartTypeImpl (TM5.class, transmission);
+    private PartType tm6 = new PartTypeImpl (TM6.class, transmission);
+    private PartType ta5 = new PartTypeImpl (TA5.class, transmission);
+    private PartType ts6 = new PartTypeImpl (TS6.class, transmission);
+    private PartType tsf7 = new PartTypeImpl (TSF7.class, transmission);
+    private PartType tc120 = new PartTypeImpl (TC120.class, transmission);
     private  Set<PartType> transPartTypes = new HashSet<PartType>(){{
        add(tm5);
        add(tm6);
@@ -68,10 +83,15 @@ public class Initiations {
         return  transPartTypes ;
     }
 
-    //partType de la categorie exterior
-    private PartType xc = new PartTypeImpl("XC",exterior);
-    private PartType xm = new PartTypeImpl("XM",exterior);
-    private PartType xs = new PartTypeImpl("XS",exterior);
+    // Exterior classes
+    public final class XC extends PartImpl {}
+    public final class XM extends PartImpl {}
+    public final class XS extends PartImpl {}
+
+    //Exterior part types
+    private PartType xc = new PartTypeImpl(XC.class,exterior);
+    private PartType xm = new PartTypeImpl(XM.class,exterior);
+    private PartType xs = new PartTypeImpl(XS.class,exterior);
     private Set<PartType> exPartTypes = new HashSet<PartType>(){{
        add(xc);
        add(xm);
@@ -82,10 +102,15 @@ public class Initiations {
         return  exPartTypes ;
     }
 
+    // Interior classes
+    public final class IN extends PartImpl {}
+    public final class IH extends PartImpl {}
+    public final class IS extends PartImpl {}
+
     //PartType de categorie interior
-    private PartType in = new PartTypeImpl("IN", interior);
-    private PartType ih = new PartTypeImpl("IH", interior);
-    private PartType is = new PartTypeImpl("IS", interior);
+    private PartType in = new PartTypeImpl(IN.class, interior);
+    private PartType ih = new PartTypeImpl(IH.class, interior);
+    private PartType is = new PartTypeImpl(IS.class, interior);
     private Set<PartType> inPartTypes = new HashSet<PartType>(){{
        add(in);
        add(ih);
