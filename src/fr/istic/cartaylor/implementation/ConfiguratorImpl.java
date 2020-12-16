@@ -21,10 +21,11 @@ public class ConfiguratorImpl  implements Configurator {
 
     /**
      * Creates a new configurator with an empty configuration.
-     * @param catalog Map associating categories to their part types
+     * @param initializer Initializer storing available part types
      */
-    public ConfiguratorImpl(Map<Category, Set<PartType>> catalog) {
-        this.catalog = catalog;
+    public ConfiguratorImpl(Initializer initializer) {
+        this.catalog = initializer.getCatalog();
+        initializer.initCompatibilityManager(this.compatibilityManager);
     }
 
 

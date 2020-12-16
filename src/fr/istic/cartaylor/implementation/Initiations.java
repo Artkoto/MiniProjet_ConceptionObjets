@@ -4,13 +4,16 @@ import fr.istic.cartaylor.api.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe comportant l'enssemble des initialisations du projet.
+ *
+ * Class initializing part types, incompatibilities and requirement.
  */
-public class Initiations {
+public class Initiations implements Initializer {
+
     //Categories
     private CategoryImpl engine = new CategoryImpl("Engine");
     private CategoryImpl transmission = new CategoryImpl("Transmission");
@@ -28,11 +31,18 @@ public class Initiations {
     }
 
     // Engine classes
+
+    /** Class for EG100 engine parts */
     public final class EG100 extends PartImpl {}
+    /** Class for EG133 engine parts */
     public final class EG133 extends PartImpl {}
+    /** Class for EG210 engine parts */
     public final class EG210 extends PartImpl {}
+    /** Class for ED110 engine parts */
     public final class ED110 extends PartImpl {}
+    /** Class for ED180 engine parts */
     public final class ED180 extends PartImpl {}
+    /** Class for EH120 engine parts */
     public final class EH120 extends PartImpl {}
 
     // Engine part types
@@ -51,16 +61,26 @@ public class Initiations {
         add(eh120);
     }};
 
+    /**
+     * Returns a set of engine part types.
+     * @return Set of engine part types
+     */
     public Set<PartType> getEngPartTypes(){
         return  engPartTypes ;
     }
 
     // Transmission classes
+    /** Class for TM5 transmission parts */
     public final class TM5 extends PartImpl {}
+    /** Class for TM6 transmission parts */
     public final class TM6 extends PartImpl {}
+    /** Class for TA5 transmission parts */
     public final class TA5 extends PartImpl {}
+    /** Class for TS6 transmission parts */
     public final class TS6 extends PartImpl {}
+    /** Class for TSF7 transmission parts */
     public final class TSF7 extends PartImpl {}
+    /** Class for TC120 transmission parts */
     public final class TC120 extends PartImpl {}
 
     // Transmission part types
@@ -79,13 +99,20 @@ public class Initiations {
        add(tc120);
     }};
 
+    /**
+     * Returns a set of transmission part types.
+     * @return Set of transmission part types
+     */
     public Set<PartType> getTransPartTypes(){
         return  transPartTypes ;
     }
 
     // Exterior classes
+    /** Class for XC exterior parts */
     public final class XC extends PartImpl {}
+    /** Class for XM exterior parts */
     public final class XM extends PartImpl {}
+    /** class for XS exterior parts */
     public final class XS extends PartImpl {}
 
     //Exterior part types
@@ -98,13 +125,20 @@ public class Initiations {
        add(xs);
     }};
 
+    /**
+     * Returns a set of exterior part types.
+     * @return Set of exterior part types
+     */
     public Set<PartType> getExPartTypes(){
         return  exPartTypes ;
     }
 
     // Interior classes
+    /** Class for IN interior parts */
     public final class IN extends PartImpl {}
+    /** Class for IH interior parts */
     public final class IH extends PartImpl {}
+    /** Class for IS interior parts */
     public final class IS extends PartImpl {}
 
     //PartType de categorie interior
@@ -117,22 +151,32 @@ public class Initiations {
        add(is);
     }};
 
+    /**
+     * Returns a set of interior part types.
+     * @return Set of interior part types
+     */
     public Set<PartType> getInPartTypes(){
         return  inPartTypes ;
     }
 
-    private HashMap<Category, Set<PartType>> variants = new HashMap<>(){{
+    private Map<Category, Set<PartType>> variants = new HashMap<>(){{
         put(engine,engPartTypes);
         put(transmission,transPartTypes);
         put(exterior,exPartTypes);
         put(interior,inPartTypes);
     }};
 
-    public HashMap<Category, Set<PartType>> getVariants() {
+    /**
+     * Returns a map associating categories to their available part types.
+     * @return Map associating categories to a set of their available part types
+     * @see ConfiguratorImpl#ConfiguratorImpl(Map)
+     */
+    @Override
+    public Map<Category, Set<PartType>> getCatalog() {
         return variants;
     }
 
-    //les incompatibilities
+    // incompatibilities
     Set<PartType> incForTa5 = new HashSet<PartType>(){{
         add(eg100);
     }};
@@ -154,7 +198,7 @@ public class Initiations {
         add(eg100);
         add(tm5);
     }};
-    //ensemble d'incompatibilities
+    // incompatibilities set
     private HashMap<PartType, Set<PartType>> incompatibilities = new HashMap<>(){{
         put(xs,incForXs);
         put(is,incForIs);
@@ -164,11 +208,16 @@ public class Initiations {
         put(xm,incForXm);
     }};
 
+    /**
+     * Returns a map associating part types to their incompatible part types.
+     * @return Map associating part types to a set of their incompatible part
+     *         types
+     */
     public HashMap<PartType, Set<PartType>> getIncompatibilities() {
         return incompatibilities;
     }
 
-    //les requirements
+    // requirements
     Set<PartType> reqForEh120 = new HashSet<PartType>(){{
         add(tc120);
     }};
@@ -182,7 +231,7 @@ public class Initiations {
         add(xs);
     }};
 
-    //ensemble de requirements
+    // set requirements
     private HashMap<PartType, Set<PartType>> requirements = new HashMap<>(){{
         put(eh120,reqForEh120);
         put(tc120,reqForTc120);
@@ -190,17 +239,32 @@ public class Initiations {
         put(is,reqForIs);
     }};
 
+    /**
+     * Returns a map associating part types to their required part types.
+     * @return Map associating part types to a set of their required part types
+     */
     public HashMap<PartType, Set<PartType>> getRequirements() {
         return requirements;
     }
 
-    //Methodes pour acceder aux categories et aux partTypes
+    /**
+     * Returns a category of given name.
+     * @param categoryName Name of the category
+     * @return Category of given name, or <code>null</code> if the category does
+     *         not exist.
+     */
     public Category accessToCategory (String categoryName){
         CategoryImpl category = new CategoryImpl(categoryName);
         if (categories.contains(category)) return  category ;
         else return  null ;
     }
 
+    /**
+     * Returns a part type of given name.
+     * @param partTypeName Name of the part type
+     * @return Part type of given name, or <code>null</code> if the part type
+     *         does not exist.
+     */
     public PartType accessToPartType (String partTypeName){
         for (Category category : categories){
             Set<PartType> variants1 = this.variants.get(category);
@@ -211,5 +275,20 @@ public class Initiations {
         return  null ;
     }
 
-
+    /**
+     * Initialize given compatibility manager with incompatibilities and
+     * requirements.
+     * @param compatibilityManager compatibility manager to initialize
+     */
+    @Override
+    public void
+    initCompatibilityManager(CompatibilityManager compatibilityManager) {
+        for(PartType ref: incompatibilities.keySet())
+            compatibilityManager.addIncompatibilities(
+                    ref,
+                    incompatibilities.get(ref)
+            );
+        for(PartType ref: requirements.keySet())
+            compatibilityManager.addRequirements(ref, requirements.get(ref));
+    }
 }
