@@ -41,11 +41,15 @@ public class ConfigurationImpl implements Configuration {
                             part.getType()
                     );
             for (PartType req: requirements){
-                if (!selection.contains(req))
+                if (!selection.stream().anyMatch(
+                        (p) -> p.getType().equals(req)
+                ))
                     return false ;
             }
             for (PartType inc: incompatibilities){
-                if (selection.contains(inc))
+                if (selection.stream().anyMatch(
+                        (p) -> p.getType().equals(inc)
+                ))
                     return false ;
             }
         }
