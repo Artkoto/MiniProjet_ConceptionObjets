@@ -57,15 +57,6 @@ public class CompatibilityManagerTest {
     }
 
     /**
-     * Add incompatibility between two different part types of same category.
-     */
-    void addIncompatibilitySameCat() {
-        compatibilityManager.addIncompatibilities(partTypeAA, new HashSet<>() {{
-            add(partTypeAB);
-        }});
-    }
-
-    /**
      * Tests CompatibilityChecker#addIncompatibilities on two different part
      * types of same category.
      */
@@ -73,18 +64,14 @@ public class CompatibilityManagerTest {
     @DisplayName("addIncompatibilities for same category")
     void testAddIncompatibilitiesSameCat() {
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addIncompatibilitySameCat
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addIncompatibilities(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeAB); }}
+                    );
+                }
         );
-    }
-
-    /**
-     * Add incompatibility between a part type and itself.
-     */
-    void addIncompatibilityItself() {
-        compatibilityManager.addIncompatibilities(partTypeAA, new HashSet<>() {{
-            add(partTypeAA);
-        }});
     }
 
     /**
@@ -95,18 +82,14 @@ public class CompatibilityManagerTest {
     @DisplayName("addIncompatibilities for same object")
     void testAddIncompatibilitiesItself() {
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addIncompatibilityItself
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addIncompatibilities(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeAA); }}
+                    );
+                }
         );
-    }
-
-    /**
-     * Adds PartTypeBA to incompatible parts with PartTypeAA.
-     */
-    void addIncompatibilityAAandBA() {
-        compatibilityManager.addIncompatibilities(partTypeAA, new HashSet<>() {{
-            add(partTypeBA);
-        }});
     }
 
     /**
@@ -120,8 +103,13 @@ public class CompatibilityManagerTest {
             add(partTypeBA);
         }});
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addIncompatibilityAAandBA
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addIncompatibilities(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeBA); }}
+                    );
+                }
         );
     }
 
@@ -176,15 +164,6 @@ public class CompatibilityManagerTest {
     }
 
     /**
-     * Add requirement between two different part types of same category.
-     */
-    void addRequirementSameCat() {
-        compatibilityManager.addRequirements(partTypeAA, new HashSet<>() {{
-            add(partTypeAB);
-        }});
-    }
-
-    /**
      * Tests CompatibilityChecker#addRequirements on two different part types of
      * same category.
      */
@@ -192,18 +171,14 @@ public class CompatibilityManagerTest {
     @DisplayName("addRequirements for same category")
     void testAddRequirementsSameCat() {
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addRequirementSameCat
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addRequirements(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeAB); }}
+                    );
+                }
         );
-    }
-
-    /**
-     * Add requirement between a part type and itself.
-     */
-    void addRequirementItself() {
-        compatibilityManager.addIncompatibilities(partTypeAA, new HashSet<>() {{
-            add(partTypeAA);
-        }});
     }
 
     /**
@@ -213,18 +188,14 @@ public class CompatibilityManagerTest {
     @DisplayName("addRequirements for same object")
     void testAddRequirementsItself() {
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addRequirementItself
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addIncompatibilities(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeAA); }}
+                    );
+                }
         );
-    }
-
-    /**
-     * Adds PartTypeBB to required parts with PartTypeAA.
-     */
-    void addRequirementBBandAA() {
-        compatibilityManager.addRequirements(partTypeAA, new HashSet<>() {{
-            add(partTypeBB);
-        }});
     }
 
     /**
@@ -238,8 +209,13 @@ public class CompatibilityManagerTest {
             add(partTypeBB);
         }});
         Assertions.assertThrows(
-                CarTaylorExceptions.class,
-                this::addRequirementBBandAA
+                IllegalArgumentException.class,
+                () -> {
+                    compatibilityManager.addRequirements(
+                            partTypeAA,
+                            new HashSet<>() {{ add(partTypeBB); }}
+                    );
+                }
         );
     }
 

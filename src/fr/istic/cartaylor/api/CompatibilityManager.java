@@ -45,6 +45,7 @@ public interface CompatibilityManager extends CompatibilityChecker {
      *
      * @param   reference   Part type to use
      * @param   target      All required part types
+     * @throws IllegalArgumentException Preconditions are not respected
      */
     void addRequirements(PartType reference, Set<PartType> target);
 

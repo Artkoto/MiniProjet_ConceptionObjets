@@ -97,13 +97,13 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
         Set<PartType> reqs = this.getRequirements(reference);
         for(PartType p: target) {
             if (p.getCategory().equals(reference.getCategory()))
-                throw new CarTaylorExceptions(
+                throw new IllegalArgumentException(
                         "attempted to add part type " + p.getName() +
                                 " of same category as " + reference.getName() +
                                 " (" + reference.getCategory().getName() + ")"
                 );
             if (reqs.contains(p))
-                throw new CarTaylorExceptions(
+                throw new IllegalArgumentException(
                         "attempted to add required part " + p.getName() +
                                 " for part " + reference.getName() +
                                 " to incompatibilities"
@@ -144,13 +144,13 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
         Set<PartType> incs = this.getIncompatibilities(reference);
         for(PartType p: target) {
             if(p.getCategory().equals(reference.getCategory()))
-                throw new CarTaylorExceptions(
+                throw new IllegalArgumentException(
                         "attempted to add part type " + p.getName() +
                                 " of same category as " + reference.getName() +
                                 " (" + reference.getCategory().getName() + ")"
                 );
             if(incs.contains(p))
-                throw new CarTaylorExceptions(
+                throw new IllegalArgumentException(
                         "attempted to add incompatible part type " + p.getName()
                                 + " with " + reference.getName() +
                                 " to its requirements"
