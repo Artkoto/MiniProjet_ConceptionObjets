@@ -11,13 +11,16 @@ public interface Configuration {
 
     /**
      * Tests if the configuration is complete and valid.
-     * @return  <code>true</code> if the configuration is valid, <code>false</code> otherwise.
+     * @return  <code>true</code> if the configuration is valid,
+     * <code>false</code> otherwise.
      */
     boolean isValid();
 
     /**
-     * Tests if the configuration is complete, i.e. all categories have been configurated.
-     * @return  <code>true</code> if the configuration is complete, <code>false</code> otherwise.
+     * Tests if the configuration is complete, i.e. all categories have been
+     * configured.
+     * @return  <code>true</code> if the configuration is complete,
+     *          <code>false</code> otherwise.
      */
     boolean isComplete();
 
@@ -36,8 +39,8 @@ public interface Configuration {
     /**
      * Returns selected part of given category.
      * @param   category    Category
-     * @return  On optional containing the selected part for given category, or an empty optional
-     *          if no part was selected.
+     * @return  On optional containing the selected part for given category, or
+     *          an empty optional if no part was selected.
      */
     Optional<Part> getSelectionForCategory(Category category);
 

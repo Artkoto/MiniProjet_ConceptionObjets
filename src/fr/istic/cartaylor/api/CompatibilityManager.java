@@ -3,7 +3,8 @@ package fr.istic.cartaylor.api;
 import java.util.Set;
 
 /**
- * A public interface allowing to system administrator to modify compatibilities and requirements between part types.
+ * A public interface allowing to system administrator to modify compatibilities
+ * and requirements between part types.
  * @author  plouzeau
  */
 public interface CompatibilityManager extends CompatibilityChecker {
