@@ -19,7 +19,8 @@ public class PartTypeImpl implements PartType {
 
     /**
      * Creates a new Part type for given Part class.
-     * @param classRef Class of part objects
+     * @param classRef Class of part objects. Must be <code>public</code> and
+     *                 <code>static</code> for inner classes.
      * @param category Category for this part type
      */
     public PartTypeImpl(Class<? extends PartImpl> classRef, Category category) {
@@ -47,6 +48,10 @@ public class PartTypeImpl implements PartType {
         return this.category;
     }
 
+    /**
+     * Returns a new part of this type.
+     * @return New instance of this part type
+     */
     public PartImpl newInstance() {
         Constructor<? extends PartImpl> constructor;
         try {
