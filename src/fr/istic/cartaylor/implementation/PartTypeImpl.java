@@ -35,7 +35,7 @@ public class PartTypeImpl implements PartType {
      */
     @Override
     public String getName() {
-        return this.classRef.getName();
+        return this.classRef.getSimpleName();
     }
 
     /**
