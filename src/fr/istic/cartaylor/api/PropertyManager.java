@@ -33,7 +33,8 @@ public interface PropertyManager {
      * If the object does not support that property then an empty optional is
      * returned.
      * @param propertyName the property to read
-     * @return
+     * @return On optional storing the value set for property, or an empty
+     *         optional if the property is not supported
      */
     public Optional<String> getProperty(String propertyName);
 
@@ -41,8 +42,8 @@ public interface PropertyManager {
      * Sets the value of a given property.
      * If there is not such property, or if it not writable, or if the value is
      * invalid then an IllegalArgumentException is thrown.
-     * @param propertyName
-     * @param propertyValue
+     * @param propertyName Name of the property
+     * @param propertyValue Value of the property
      * @throws IllegalArgumentException  (see above)
      */
     void setProperty(String propertyName, String propertyValue);
