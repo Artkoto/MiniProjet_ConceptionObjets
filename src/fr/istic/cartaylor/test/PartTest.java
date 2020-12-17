@@ -25,7 +25,8 @@ public class PartTest {
      * Part class with three properties:
      *   - "p1" with possible values "1", "2", "3", "4",
      *   - "p2" with possible values "true", "false",
-     *   - "p3" not writable.
+     *   - "p3" not writable,
+     *   - "p4" with continuous float values.
      */
     static public class ConcretePart extends PartImpl {
         private int p1 = 1;
@@ -40,6 +41,7 @@ public class PartTest {
                 "true", true,
                 "false", false
         );
+        private double p4 = 0.0;
         public ConcretePart() {
             super();
             addProperty(
@@ -58,6 +60,12 @@ public class PartTest {
                     "p3",
                     () -> "V3",
                     null,
+                    Collections.emptySet()
+            );
+            addProperty(
+                    "p4",
+                    () -> Double.toString(this.p4),
+                    (str) -> this.p4 = Double.valueOf(str),
                     Collections.emptySet()
             );
         }
@@ -109,6 +117,7 @@ public class PartTest {
                     add("p1");
                     add("p2");
                     add("p3");
+                    add("p4");
                 }},
                 part.getPropertyNames()
         );
@@ -129,7 +138,7 @@ public class PartTest {
     @Test
     @DisplayName("getProperty non-existing property")
     void testGetNonExistingProperty() {
-        Assertions.assertTrue(part.getProperty("p4").isEmpty());
+        Assertions.assertTrue(part.getProperty("p5").isEmpty());
     }
 
     /**
@@ -141,6 +150,21 @@ public class PartTest {
     void testSetPropertyValid() {
         part.setProperty("p1", "2");
         Assertions.assertEquals("2", part.getProperty("p1").get());
+    }
+
+    /**
+     * Tests PropertyManager#setProperty for an existing property with
+     * continuous value.
+     */
+    @Test
+    @DisplayName("setProperty continuous")
+    void testSetPropertyContinuous() {
+        part.setProperty("p4", "7.35");
+        Assertions.assertEquals(
+                7.35,
+                Double.valueOf(part.getProperty("p4").get()),
+                0.01
+        );
     }
 
     /**
@@ -176,7 +200,7 @@ public class PartTest {
     void testSetNonExistingProperty() {
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> part.setProperty("p4", "val")
+                () -> part.setProperty("p5", "val")
         );
     }
 
@@ -199,6 +223,19 @@ public class PartTest {
     @Test
     @DisplayName("getAvailablePropertyValues non-existing")
     void testGetAvailableNonExistingPropertyValues() {
+        Assertions.assertIterableEquals(
+                Collections.EMPTY_SET,
+                part.getAvailablePropertyValues("p5")
+        );
+    }
+
+    /**
+     * Tests PropertyManager#getAvailablePropertyValues for a continuous
+     * property.
+     */
+    @Test
+    @DisplayName("getAvailablePropertyValues continuous")
+    void testGetAvailableContinuousPropertyValues() {
         Assertions.assertIterableEquals(
                 Collections.EMPTY_SET,
                 part.getAvailablePropertyValues("p4")

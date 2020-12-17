@@ -115,9 +115,10 @@ public abstract class PartImpl implements Part {
 
         if ((properties.containsKey(propertyName))
                 && (properties.get(propertyName).setter != null)
-                && (properties.get(
-                        propertyName
-                   ).possibleValues.contains(propertyValue))) {
+                && (properties.get(propertyName).possibleValues.isEmpty()
+                   || properties.get(
+                          propertyName
+                      ).possibleValues.contains(propertyValue))) {
             properties.get(propertyName).setter.accept(propertyValue);
         } else {
             throw new IllegalArgumentException(
