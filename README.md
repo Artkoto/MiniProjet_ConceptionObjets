@@ -1,6 +1,6 @@
 # CarTaylor
 
-Car configurator in Java. Version 1.
+Car configurator in Java. Version 2.
 
 ## Developpers
 
