@@ -11,8 +11,12 @@ public interface Configuration {
 
     /**
      * Tests if the configuration is complete and valid.
-     * @return  <code>true</code> if the configuration is valid,
-     * <code>false</code> otherwise.
+     *
+     * A valid configuration is a complete configuration where all requirements
+     * are satisfied and there are no incompatibilities.
+     *
+     * @return <code>true</code> if the configuration is valid,
+     *         <code>false</code> otherwise.
      */
     boolean isValid();
 
@@ -32,7 +36,11 @@ public interface Configuration {
 
     /**
      * Select a part.
-     * @param   chosenPart  Part to select
+     *
+     * If a part was already selected for <code>chosenPart</code>'s category, it
+     * is replaced by the new part.
+     *
+     * @param chosenPart Part to select
      */
     void selectPart(Part chosenPart) ;
 

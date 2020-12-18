@@ -23,6 +23,7 @@ public interface CompatibilityManager extends CompatibilityChecker {
      * @param   reference   A part type
      * @param   target      All incompatible part types with
      *                      <code>reference</code>
+     * @throws IllegalArgumentException Preconditions are not respected
      */
     void addIncompatibilities(PartType reference, Set<PartType> target);
 

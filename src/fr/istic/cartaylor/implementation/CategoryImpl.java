@@ -7,13 +7,18 @@ import java.util.Objects;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe Implementant l'interface Category.
+ *
+ * Implementation for the Category type.
  */
 public class CategoryImpl implements Category {
     private String name;
 
-    public CategoryImpl (String name1){
-        this.name = name1 ;
+    /**
+     * Creates a new category.
+     * @param name Name of the category
+     */
+    public CategoryImpl (String name){
+        this.name = name ;
     }
 
     /**
@@ -26,14 +31,24 @@ public class CategoryImpl implements Category {
         return this.name;
     }
 
+    /**
+     * A category is equal to another category if they have the same name.
+     * A category cannot be equal to another type of object.
+     * @param o Object to compare
+     * @return <code>true</code> if both objects are categories of the same
+     *         name, <code>false</code> otherwise
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CategoryImpl category = (CategoryImpl) o;
-        return name.equals(category.name);
+        if(!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return name.equals(category.getName());
     }
 
+    /**
+     * Computes category's hash code.
+     * @return Hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name);

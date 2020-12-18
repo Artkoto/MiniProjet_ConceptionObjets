@@ -10,7 +10,8 @@ import java.util.Set;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe Implementant l'interface Configurator.
+ *
+ * Implementation for the Configurator type.
  */
 public class ConfiguratorImpl  implements Configurator {
     // Map associating a category and its available variants
@@ -20,8 +21,9 @@ public class ConfiguratorImpl  implements Configurator {
     private Configuration configuration = new ConfigurationImpl(this);
 
     /**
-     * Creates a new configurator with an empty configuration.
-     * @param initializer Initializer storing available part types
+     * Creates a new configurator with an empty configuration and an initialized
+     * CompatibilityChecker through Initializer#initCompatibilityManager.
+     * @param initializer Initializer object storing available part types
      */
     public ConfiguratorImpl(Initializer initializer) {
         this.catalog = initializer.getCatalog();

@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe Implementant l'interface  PartType.
+ *
+ * Implementation for the PartType type.
  */
 public class PartTypeImpl implements PartType {
     private Class<? extends PartImpl> classRef;
@@ -66,15 +67,27 @@ public class PartTypeImpl implements PartType {
         return null;
     }
 
+    /**
+     * Tests if both objects are equal part types.
+     * Part types are equal when the Part implementation class they reference is
+     * the same.
+     * A part type cannot be equal to another type of object.
+     * @param o Object to compare
+     * @return <code>true</code> if both part types are equal,
+     *         <code>false</code> otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PartTypeImpl partType = (PartTypeImpl) o;
-        return getName().equals(partType.getName()) &&
-                category.equals(partType.category);
+        return classRef.equals(partType.classRef);
     }
 
+    /**
+     * Computes part type's hash code.
+     * @return Hash code
+     */
     @Override
     public int hashCode() {
         return classRef.hashCode();

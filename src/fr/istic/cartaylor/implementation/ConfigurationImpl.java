@@ -7,7 +7,8 @@ import java.util.*;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe Implementant l'interface Configuration.
+ *
+ * Implementation for the Configuration type.
  */
 public class ConfigurationImpl implements Configuration {
     private Map<Category, Part> selections = new HashMap<>();
@@ -25,7 +26,11 @@ public class ConfigurationImpl implements Configuration {
     /**
      * Tests if the configuration is complete and valid.
      *
-     * @return <code>true</code> if the configuration is valid, <code>false</code> otherwise.
+     * A valid configuration is a complete configuration where all requirements
+     * are satisfied and there are no incompatibilities.
+     *
+     * @return <code>true</code> if the configuration is valid,
+     *         <code>false</code> otherwise.
      */
     @Override
     public boolean isValid() {
@@ -57,9 +62,10 @@ public class ConfigurationImpl implements Configuration {
     }
 
     /**
-     * Tests if the configuration is complete, i.e. all categories have been configurated.
-     *
-     * @return <code>true</code> if the configuration is complete, <code>false</code> otherwise.
+     * Tests if the configuration is complete, i.e. all categories have been
+     * configured.
+     * @return  <code>true</code> if the configuration is complete,
+     *          <code>false</code> otherwise.
      */
     @Override
     public boolean isComplete() {
@@ -87,6 +93,9 @@ public class ConfigurationImpl implements Configuration {
     /**
      * Select a part.
      *
+     * If a part was already selected for <code>chosenPart</code>'s category, it
+     * is replaced by the new part.
+     *
      * @param chosenPart Part to select
      */
     @Override
@@ -99,7 +108,8 @@ public class ConfigurationImpl implements Configuration {
      * Returns selected part of given category.
      *
      * @param category Category
-     * @return Selected part for given category, or <code>null</code> if no part was selected
+     * @return On optional containing the selected part for given category, or
+     *         an empty optional if no part was selected.
      */
     @Override
     public Optional<Part> getSelectionForCategory(Category category) {

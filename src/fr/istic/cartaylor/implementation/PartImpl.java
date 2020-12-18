@@ -6,6 +6,21 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
+ * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
+ *
+ * Implementation for the Part type.
+ *
+ * This abstract class must be extended for each part type.
+ * To set available properties, creates a constructor method with no parametters
+ * and calls the PartImpl#addProperty method for each property.
+ * If extentions are declared inside a class, it must be <code>static</code> and
+ * <code>public</code>.
+ *
+ * After a subclass is instancied, the PartImpl#setType must be called with the
+ * PartType corresponding.
+ */
 public abstract class PartImpl implements Part {
 
     private PartType type;
@@ -75,9 +90,10 @@ public abstract class PartImpl implements Part {
     }
 
     /**
-     * Returns an immutable set of the property names supported by the property manager.
+     * Returns an immutable set of the property names supported by the property
+     * manager.
      *
-     * @return
+     * @return Set of property names (immutable)
      */
     @Override
     public Set<String> getPropertyNames() {
@@ -88,7 +104,8 @@ public abstract class PartImpl implements Part {
      * Returns the optional value of a property.
      * If the object does not support that property then an empty optional is returned.
      * @param propertyName the property to read
-     * @return
+     * @return On optional storing the value set for property, or an empty
+     *         optional if the property is not supported
      */
     @Override
     public Optional<String> getProperty(String propertyName) {
@@ -104,8 +121,8 @@ public abstract class PartImpl implements Part {
      * Sets the value of a given property.
      * If there is not such property, or if it not writable, or if the value is invalid
      * then an IllegalArgumentException is thrown.
-     * @param propertyName
-     * @param propertyValue
+     * @param propertyName Name of the property
+     * @param propertyValue Value of the property
      * @throws IllegalArgumentException  (see above)
      */
     @Override
@@ -129,8 +146,9 @@ public abstract class PartImpl implements Part {
 
     /**
      * Returns the immutable set of discrete string values for a given property.
-     * For properties that have a non explicit set of possible values (eg double converted to strings),
-     * or for a non existing property name, returns an empty set.
+     * For properties that have a non explicit set of possible values (eg double
+     * converted to strings), or for a non existing property name, returns an
+     * empty set.
      *
      * @param propertyName a non-null string reference
      * @return an immutable set (see above)

@@ -11,7 +11,8 @@ import java.util.Set;
 /**
  * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
  * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe Implementant l'interface CompatibilityManager.
+ *
+ * Implementation for the CompatibilityManager type.
  */
 public class CompatibilityManagerImpl implements CompatibilityManager {
 
@@ -50,6 +51,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
         public final PartType reference;
         public final PartType required;
 
+        // reference needs requirement
         private Requirement(PartType reference, PartType required) {
             this.reference = reference;
             this.required = required;
@@ -90,6 +92,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
      * @param   reference   A part type
      * @param   target      All incompatible part types with
      *                      <code>reference</code>
+     * @throws IllegalArgumentException Preconditions are not respected
      */
     @Override
     public void addIncompatibilities(PartType reference, Set<PartType> target) {
@@ -137,6 +140,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
      *
      * @param reference Part type to use
      * @param target    All required part types
+     * @throws IllegalArgumentException Preconditions are not respected
      */
     @Override
     public void addRequirements(PartType reference, Set<PartType> target) {
@@ -162,8 +166,10 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 
     /**
      * Remove a required part type for a given part type.
-     * This means that <code>reference</code> does not longer needs <code>target</code> to be used.
-     * It does not specify if <code>target</code> needs <code>reference</code> to be used, or not.
+     * This means that <code>reference</code> does not longer needs
+     * <code>target</code> to be used.
+     * It does not specify if <code>target</code> needs <code>reference</code>
+     * to be used, or not.
      *
      * @param reference Part type to use
      * @param target    No longer required part type
