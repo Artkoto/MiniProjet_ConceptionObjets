@@ -14,10 +14,10 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Test class for the Part type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class PartTest {
 
@@ -30,6 +30,7 @@ public class PartTest {
      */
     static public class ConcretePart extends PartImpl {
         private int p1 = 1;
+        /** Map associating possible values in String format to integers. */
         public final Map<String, Integer> table1 = Map.of(
                 "1", 1,
                 "2", 2,
@@ -37,11 +38,16 @@ public class PartTest {
                 "4", 4
         );
         private boolean p2 = false;
+        /** Map associating possible values in String format to booleans. */
         public final Map<String, Boolean> table2 = Map.of(
                 "true", true,
                 "false", false
         );
         private double p4 = 0.0;
+
+        /**
+         * Creates a new concrete part with initialized properties.
+         */
         public ConcretePart() {
             super();
             addProperty(

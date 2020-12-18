@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Implementation for the Configurator type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class ConfiguratorImpl  implements Configurator {
     // Map associating a category and its available variants

@@ -5,10 +5,10 @@ import fr.istic.cartaylor.api.*;
 import java.util.*;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Implementation for the Configuration type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class ConfigurationImpl implements Configuration {
     private Map<Category, Part> selections = new HashMap<>();

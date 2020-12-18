@@ -9,10 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Implementation for the PartType type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class PartTypeImpl implements PartType {
     private Class<? extends PartImpl> classRef;

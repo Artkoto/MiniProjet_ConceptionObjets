@@ -7,19 +7,19 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Implementation for the Part type.
  *
  * This abstract class must be extended for each part type.
- * To set available properties, creates a constructor method with no parametters
+ * To set available properties, creates a constructor method with no parameters
  * and calls the PartImpl#addProperty method for each property.
- * If extentions are declared inside a class, it must be <code>static</code> and
+ * If extensions are declared inside a class, it must be <code>static</code> and
  * <code>public</code>.
  *
- * After a subclass is instancied, the PartImpl#setType must be called with the
+ * After a subclass is instanced, the PartImpl#setType must be called with the
  * PartType corresponding.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public abstract class PartImpl implements Part {
 
@@ -54,7 +54,22 @@ public abstract class PartImpl implements Part {
         if(this.type == null) this.type = type;
     }
 
-    // Add a property to the part
+    /**
+     * Add a property to the part.
+     *
+     * This method is aimed to be called in subclasses' constructors to define
+     * available properties.
+     *
+     * @param name Name of the property
+     * @param getter Method called by PartImpl#getProperty to get the current
+     *               value.
+     * @param setter Method called by PartImpl#setProperty with the user's new
+     *               value. If this property has a set of possible values, will
+     *               be called only if provided value is a possible value.
+     *               <code>null</code> for a read-only property.
+     * @param possibleValues Set of possible values. Empty set for no value
+     *                       checking, or continuous values.
+     */
     protected void addProperty(String name,
                                Supplier<String> getter,
                                Consumer<String> setter,

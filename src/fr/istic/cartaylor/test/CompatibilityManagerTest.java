@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Test class for the CompatibilityManager type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class CompatibilityManagerTest {
     private CompatibilityManager compatibilityManager;

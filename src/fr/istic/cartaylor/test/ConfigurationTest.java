@@ -13,19 +13,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *
  * Test class for the Configuration type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
 public class ConfigurationTest {
     Configuration configuration;
     Configurator configurator;
     Category categoryA = new CategoryImpl("A");
     Category categoryB = new CategoryImpl("B");
+    /** Part class for type AA of category A */
     static public class AA extends PartImpl {}
+    /** Part class for type AB of category A */
     static public class AB extends PartImpl {}
+    /** Part class for type BA of category B */
     static public class BA extends PartImpl {}
+    /** Part class for type BB of category B */
     static public class BB extends PartImpl {}
     PartTypeImpl partTypeAA = new PartTypeImpl(AA.class ,categoryA);
     PartTypeImpl partTypeAB = new PartTypeImpl(AB.class, categoryA);
