@@ -1,180 +1,251 @@
 package fr.istic.cartaylor.test;
 
 import fr.istic.cartaylor.api.*;
-
-import fr.istic.cartaylor.implementation.ConfiguratorImpl;
-import fr.istic.cartaylor.implementation.Initiations;
+import fr.istic.cartaylor.implementation.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 
-
 /**
- * @author Arnaud Akoto <yao-arnaud.akoto@etudiant.univ-rennes1.fr>
- * @author Anthony Amiard <anthony.amiard@etudiant.univ-rennes1.fr>
- *        Classe contenant les tests unitaires pour la Configuration.
+ * Test class for the Configuration type.
+ *
+ * @author Arnaud Akoto yao-arnaud.akoto@etudiant.univ-rennes1.fr
+ * @author Anthony Amiard anthony.amiard@etudiant.univ-rennes1.fr
  */
-
 public class ConfigurationTest {
-    private Configurator configurator ;
+    Configuration configuration;
+    Configurator configurator;
+    Category categoryA = new CategoryImpl("A");
+    Category categoryB = new CategoryImpl("B");
+    /** Part class for type AA of category A */
+    static public class AA extends PartImpl {}
+    /** Part class for type AB of category A */
+    static public class AB extends PartImpl {}
+    /** Part class for type BA of category B */
+    static public class BA extends PartImpl {}
+    /** Part class for type BB of category B */
+    static public class BB extends PartImpl {}
+    PartTypeImpl partTypeAA = new PartTypeImpl(AA.class ,categoryA);
+    PartTypeImpl partTypeAB = new PartTypeImpl(AB.class, categoryA);
+    PartTypeImpl partTypeBA = new PartTypeImpl(BA.class, categoryB);
+    PartTypeImpl partTypeBB = new PartTypeImpl(BB.class, categoryB);
 
-    private Category engine;
-    private Category transmission;
-    private Category exterior;
-    private Category interior;
-
-    private PartType eg100;
-    private PartType eg210;
-
-    private PartType ta5;
-    private PartType tsf7;
-
-    private PartType xc;
-    private PartType xs;
-
-    private PartType is;
-
+    /**
+     * Setup configuration.
+     * Catalog:
+     *   - category A
+     *     - AA
+     *     - AB
+     *   - category B
+     *     - BA
+     *     - BB
+     * Requirements:
+     *   - AA needs BA
+     * Incompatibilities
+     *   - AB and BA
+     */
     @BeforeEach
-    private void setup() {
-        configurator = new ConfiguratorImpl();
-        Initiations init = new Initiations();
+    void setup() {
+        configurator = new ConfiguratorImpl(new Initializer() {
+            @Override
+            public Map<Category, Set<PartType>> getCatalog() {
+                return new HashMap<>() {{
+                    put(categoryA, new HashSet<>() {{
+                        add(partTypeAA);
+                        add(partTypeAB);
+                    }});
+                    put(categoryB, new HashSet<>() {{
+                        add(partTypeBA);
+                        add(partTypeBB);
+                    }});
+                }};
+            }
 
-        engine = init.accessToCategory("Engine");
-        transmission = init.accessToCategory("Transmission");
-        exterior = init.accessToCategory("Exterior");
-        interior = init.accessToCategory("Interior");
-
-        eg100 = init.accessToPartType("EG100");
-        eg210 = init.accessToPartType("EG210");
-
-        ta5 = init.accessToPartType("TA5");
-        tsf7 = init.accessToPartType("TSF7");
-
-        xc = init.accessToPartType("XC");
-        xs = init.accessToPartType("XS");
-
-        is = init.accessToPartType("IS");
+            @Override
+            public void
+            initCompatibilityManager(CompatibilityManager compatibilityManager){
+                compatibilityManager.addRequirements(
+                        partTypeAA,
+                        new HashSet<>() {{
+                    add(partTypeBA);
+                }});
+                compatibilityManager.addIncompatibilities(
+                        partTypeAB,
+                        new HashSet<>() {{
+                    add(partTypeBA);
+                }});
+            }
+        });
+        configuration = new ConfigurationImpl(configurator);
     }
 
+    /**
+     * Tests Configuration#isComplete on an empty configuration.
+     */
     @Test
-    @DisplayName("Empty configuration")
-    void testEmptyConf() {
-        Configuration c = configurator.getConfiguration();
-        Assertions.assertFalse(c.isComplete());
-        Assertions.assertFalse(c.isValid());
+    @DisplayName("isComplete on an empty configuration")
+    void testEmptyIsComplete() {
+        Assertions.assertFalse(configuration.isComplete());
     }
 
+    /**
+     * Tests Configuration#isValid on an empty configuration.
+     */
     @Test
-    @DisplayName("Incomplete configuration")
-    void testIncompleteConf() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(eg100);
-        Assertions.assertFalse(c.isComplete());
-        Assertions.assertFalse(c.isValid());
+    @DisplayName("isValid on an empty configuration")
+    void testEmptyIsValid() {
+        Assertions.assertFalse(configuration.isValid());
     }
 
+    /**
+     * Tests Configuration#selectPart on empty selection.
+     */
     @Test
-    @DisplayName("Invalid configuration")
-    void testInvalidConf() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(eg100);
-        c.selectPart(ta5);
-        c.selectPart(xc);
-        c.selectPart(is);
-        Assertions.assertTrue(c.isComplete());
-        Assertions.assertFalse(c.isValid());
+    @DisplayName("Initial selectPart")
+    void testSelectPartInitial() {
+        Part aa = partTypeAA.newInstance();
+        configuration.selectPart(aa);
+        Assertions.assertEquals(
+                aa,
+                configuration.getSelectionForCategory(categoryA).get()
+        );
     }
 
+    /**
+     * Tests Configuration#selectPart after changing selection.
+     */
     @Test
-    @DisplayName("Valid configuration")
-    void testValidConf() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(eg210);
-        c.selectPart(tsf7);
-        c.selectPart(xs);
-        c.selectPart(is);
-        Assertions.assertTrue(c.isComplete());
-        Assertions.assertTrue(c.isValid());
+    @DisplayName("selectPart after change")
+    void testSelectPartChange() {
+        Part aa = partTypeAA.newInstance();
+        Part ab = partTypeAB.newInstance();
+        configuration.selectPart(aa);
+        configuration.selectPart(ab);
+        Assertions.assertEquals(
+                ab,
+                configuration.getSelectionForCategory(categoryA).get()
+        );
     }
 
-    @Test
-    @DisplayName("Empty getSelectionForCategory")
-    void testEmptyGetSelectionForCategory() {
-        Configuration c = configurator.getConfiguration();
-        Assertions.assertNull(c.getSelectionForCategory(transmission));
-    }
-
-    @Test
-    @DisplayName("Non-empty getSelectionForCategory")
-    void testGetSelectionForCategory() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(ta5);
-        Assertions.assertEquals(ta5, c.getSelectionForCategory(transmission));
-    }
-
-    @Test
-    @DisplayName("selectPart")
-    void testSelectPart() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(xs);
-        Assertions.assertEquals(xs, c.getSelectionForCategory(exterior));
-    }
-
-    @Test
-    @DisplayName("Part replacement")
-    void testPartReplacement() {
-        Configuration c = configurator.getConfiguration();
-        c.selectPart(eg100);
-        c.selectPart(eg210);
-        Assertions.assertEquals(eg210, c.getSelectionForCategory(engine));
-    }
-
-    @Test
-    @DisplayName("getSelectedParts")
-    void testGetSelectedParts() {
-        Set<PartType> s = new HashSet<PartType>() {{
-            add(eg100);
-            add(tsf7);
-            add(xc);
-            add(is);
-        }};
-        Configuration c = configurator.getConfiguration();
-
-        for(PartType p: s) {
-            c.selectPart(p);
-        }
-
-        Assertions.assertIterableEquals(s, c.getSelectedParts());
-    }
-
+    /**
+     * Tests Configuration#unselectPartType.
+     */
     @Test
     @DisplayName("unselectPartType")
     void testUnselectPartType() {
-        Configuration c = configurator.getConfiguration();
-
-        c.selectPart(xc);
-        c.unselectPartType(exterior);
-        Assertions.assertNull(c.getSelectionForCategory(exterior));
+        Part aa = partTypeAA.newInstance();
+        configuration.selectPart(aa);
+        configuration.unselectPartType(categoryA);
+        Assertions.assertTrue(
+                configuration.getSelectionForCategory(categoryA).isEmpty()
+        );
     }
 
+    /**
+     * Tests Configuration#isComplete on an incomplete configuration.
+     */
+    @Test
+    @DisplayName("isComplete non-complete")
+    void testIncompleteIsComplete() {
+        configuration.selectPart(partTypeAA.newInstance());
+        Assertions.assertFalse(configuration.isComplete());
+    }
+
+    /**
+     * Tests Configuration#isValid on an incomplete configuration.
+     */
+    @Test
+    @DisplayName("isValid non-complete")
+    void testIncompleteIsValid() {
+        configuration.selectPart(partTypeAA.newInstance());
+        Assertions.assertFalse(configuration.isValid());
+    }
+
+    /**
+     * Tests Configuration#isComplete on a complete non-valid configuration
+     * because of an incompatibility.
+     */
+    @Test
+    @DisplayName("isComplete complete incompatible")
+    void testIncompatibleIsComplete() {
+        configuration.selectPart(partTypeAB.newInstance());
+        configuration.selectPart(partTypeBA.newInstance());
+        Assertions.assertTrue(configuration.isComplete());
+    }
+
+    /**
+     * Tests Configuration#isValid on a complete non-valid configuration because
+     * of an incompatibility.
+     */
+    @Test
+    @DisplayName("isValid complete incompatible")
+    void testIncompatibleIsValid() {
+        configuration.selectPart(partTypeAB.newInstance());
+        configuration.selectPart(partTypeBA.newInstance());
+        Assertions.assertFalse(configuration.isValid());
+    }
+
+    /**
+     * Tests Configuration#isComplete on a complete non-valid configuration
+     * because of a non-satisfied requirement.
+     */
+    @Test
+    @DisplayName("isComplete complete requirement")
+    void testRequirementIsComplete() {
+        configuration.selectPart(partTypeAA.newInstance());
+        configuration.selectPart(partTypeBB.newInstance());
+        Assertions.assertTrue(configuration.isComplete());
+    }
+
+    /**
+     * Tests Configuration#isValid on a complete non-valid configuration because
+     * of a non-satisfied requirement.
+     */
+    @Test
+    @DisplayName("isValid complete requirement")
+    void testRequirementIsValid() {
+        configuration.selectPart(partTypeAA.newInstance());
+        configuration.selectPart(partTypeBB.newInstance());
+        Assertions.assertFalse(configuration.isValid());
+    }
+
+    /**
+     * Tests Configuration#isComplete on a complete and valid configuration.
+     */
+    @Test
+    @DisplayName("isComplete complete valid")
+    void testCompleteValidIsComplete() {
+        configuration.selectPart(partTypeAA.newInstance());
+        configuration.selectPart(partTypeBA.newInstance());
+        Assertions.assertTrue(configuration.isComplete());
+    }
+
+    /**
+     * Tests Configuration#isValid on a complete and valid configuration.
+     */
+    @Test
+    @DisplayName("isValid complete valid")
+    void testCompleteValidIsValid() {
+        configuration.selectPart(partTypeAA.newInstance());
+        configuration.selectPart(partTypeBA.newInstance());
+        Assertions.assertTrue(configuration.isValid());
+    }
+
+    /**
+     * Tests Configuration#clear.
+     */
     @Test
     @DisplayName("clear")
     void testClear() {
-        Configuration c = configurator.getConfiguration();
-
-        c.selectPart(eg100);
-        c.selectPart(ta5);
-        c.selectPart(xs);
-        c.selectPart(is);
-
-        c.clear();
-
-        Assertions.assertIterableEquals(Collections.EMPTY_SET, c.getSelectedParts());
+        configuration.selectPart(partTypeAA.newInstance());
+        configuration.selectPart(partTypeBA.newInstance());
+        configuration.clear();
+        Assertions.assertEquals(0, configuration.getSelectedParts().size());
     }
 }

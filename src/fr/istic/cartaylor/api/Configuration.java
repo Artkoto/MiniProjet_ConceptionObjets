@@ -11,13 +11,20 @@ public interface Configuration {
 
     /**
      * Tests if the configuration is complete and valid.
-     * @return  <code>true</code> if the configuration is valid, <code>false</code> otherwise.
+     *
+     * A valid configuration is a complete configuration where all requirements
+     * are satisfied and there are no incompatibilities.
+     *
+     * @return <code>true</code> if the configuration is valid,
+     *         <code>false</code> otherwise.
      */
     boolean isValid();
 
     /**
-     * Tests if the configuration is complete, i.e. all categories have been configurated.
-     * @return  <code>true</code> if the configuration is complete, <code>false</code> otherwise.
+     * Tests if the configuration is complete, i.e. all categories have been
+     * configured.
+     * @return  <code>true</code> if the configuration is complete,
+     *          <code>false</code> otherwise.
      */
     boolean isComplete();
 
@@ -29,15 +36,19 @@ public interface Configuration {
 
     /**
      * Select a part.
-     * @param   chosenPart  Part to select
+     *
+     * If a part was already selected for <code>chosenPart</code>'s category, it
+     * is replaced by the new part.
+     *
+     * @param chosenPart Part to select
      */
     void selectPart(Part chosenPart) ;
 
     /**
      * Returns selected part of given category.
      * @param   category    Category
-     * @return  On optional containing the selected part for given category, or an empty optional
-     *          if no part was selected.
+     * @return  On optional containing the selected part for given category, or
+     *          an empty optional if no part was selected.
      */
     Optional<Part> getSelectionForCategory(Category category);
 

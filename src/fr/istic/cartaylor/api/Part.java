@@ -2,6 +2,8 @@ package fr.istic.cartaylor.api;
 
 /**
  * Instance of PartType.
+ * A part can have its own proprieties values, different from other parts of the
+ * same type. Available proprieties are the same for all parts of the type.
  * @author plouzeau
  */
 public interface Part extends PropertyManager {
